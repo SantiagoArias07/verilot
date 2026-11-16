@@ -115,9 +115,22 @@ section[id], header[id] { scroll-margin-top: 80px; }
 .hero-ready #heroPoster { opacity: 0; }
 .hero-ready #heroGL, .hero-ready #heroOverlay { opacity: 1 !important; }
 
+/* Mobile: show a static render of the 3D scene instead of running WebGL (perf). */
+@media (max-width: 760px) {
+  #heroPoster {
+    background:
+      linear-gradient(90deg, rgba(8,9,12,0.97) 0%, rgba(8,9,12,0.84) 40%, rgba(8,9,12,0.3) 64%, rgba(8,9,12,0.12) 100%),
+      linear-gradient(0deg, rgba(8,9,12,0.92) 0%, rgba(8,9,12,0) 30%),
+      url('/assets/hero-poster.jpg') 64% 42% / cover no-repeat;
+    opacity: 1 !important;
+  }
+  #heroPoster::after { display: none; }
+}
+
 /* entrance reveal (only when JS is active, to avoid FOUC) */
 @keyframes riseIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-@keyframes wordIn { from { opacity: 0; transform: translateY(0.5em) rotate(1.2deg); } to { opacity: 1; transform: none; } }
+/* transform-only so the headline (the LCP element) paints on first frame */
+@keyframes wordIn { from { transform: translateY(0.4em); } to { transform: none; } }
 
 .js .hero-rise { opacity: 0; }
 .js .hero-stage > .hero-rise { animation: riseIn .85s cubic-bezier(.2,.7,.2,1) both; }
@@ -126,9 +139,8 @@ section[id], header[id] { scroll-margin-top: 80px; }
 .js .hero-stage > *:nth-child(4) { animation-delay: .64s; }
 .js .hero-hud { opacity: 0; animation: riseIn .85s cubic-bezier(.2,.7,.2,1) both; animation-delay: .8s; }
 
-.js #heroHeadline { opacity: 0; }
 .js #heroHeadline .hw { display: inline-block; }
-.js #heroHeadline .hwi { display: inline-block; opacity: 0; animation: wordIn .7s cubic-bezier(.2,.8,.2,1) both; }
+.js #heroHeadline .hwi { display: inline-block; animation: wordIn .6s cubic-bezier(.2,.8,.2,1) both; }
 
 /* live telemetry pulse in HUD */
 @keyframes livePulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }

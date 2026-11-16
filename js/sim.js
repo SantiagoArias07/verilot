@@ -26,7 +26,8 @@ async function sha(str) {
   }
 }
 
-export function initSimulation(els) {
+export function initSimulation(els, opts = {}) {
+  const reduced = !!opts.reduced;
   const state = { grade: 'A', contam: 0, leftCount: 0, alerts: [] };
   let injectUntil = 0, spikeUntil = 0, lastInjectAt = 0, lA = 0, renderSeq = 0;
   const t0 = performance.now();
@@ -78,12 +79,13 @@ export function initSimulation(els) {
   // ---- stream canvases ----
   function mkStream(c, side) {
     if (!c) return;
-    const F = []; let last = 0, sp = 0, lastHit = -1e9;
+    const F = []; let last = 0, sp = 0, lastHit = -1e9, staticKey = '';
     streams[side] = { F };
     const types = ['pvc', 'label', 'cap', 'metal'];
     addFrame((t) => {
       const g = fit(c); if (!g) { last = 0; return; }
       const { x: ctx, w, h } = g;
+      if (reduced) { const key = w + 'x' + h + state.grade; if (key === staticKey) return; staticKey = key; drawStreamStatic(ctx, w, h, side); return; }
       const dt = Math.min(0.05, (t - (last || t)) / 1000); last = t;
       const A = ACC, sy = h * 0.42, inj = side === 'R' && performance.now() < injectUntil;
       const rate = side === 'L' ? 0.2 : (inj ? 0.6 : 0);
@@ -119,9 +121,11 @@ export function initSimulation(els) {
   function mkNir(c) {
     if (!c) return;
     const N = 90, buf = new Array(N).fill(0.4);
+    let nirKey = '';
     addFrame((t) => {
       const g = fit(c); if (!g) return;
       const { x: ctx, w, h } = g;
+      if (reduced) { const key = w + 'x' + h; if (key === nirKey) return; nirKey = key; drawNirStatic(ctx, w, h); return; }
       const now = performance.now();
       const hot = now < spikeUntil, k = hot ? (spikeUntil - now) / 620 : 0;
       const base = 0.4 + 0.10 * Math.sin(t * 0.004) + 0.05 * Math.sin(t * 0.013 + 1);
@@ -143,6 +147,44 @@ export function initSimulation(els) {
       ctx.strokeStyle = line; ctx.lineWidth = 1.4; ctx.shadowColor = line; ctx.shadowBlur = hot ? 8 : 4; ctx.stroke(); ctx.shadowBlur = 0;
     });
   }
+
+  // ---- reduced-motion static renderers + evidence thumbnails ----
+  function drawStreamStatic(ctx, w, h, side) {
+    const sy = h * 0.42, bad = side === 'L' || state.grade !== 'A', SC = bad ? AMB : ACC;
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(w * 0.1, 0); ctx.lineTo(w * 0.1, h); ctx.moveTo(w * 0.9, 0); ctx.lineTo(w * 0.9, h); ctx.stroke();
+    let s = side === 'L' ? 91 : 53; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < 24; i++) {
+      const fx = w * 0.12 + rnd() * w * 0.76, fy = rnd() * h, r = 3 + rnd() * 4, bad2 = side === 'L' && rnd() < 0.16;
+      ctx.fillStyle = bad2 ? hexA(RED, 0.55) : `rgba(200,232,245,${0.14 + rnd() * 0.2})`;
+      ctx.beginPath(); ctx.ellipse(fx, fy, r, r * 0.6, rnd() * 6, 0, 7); ctx.fill();
+      if (bad2) bracket(ctx, fx - 8, fy - 8, 16, 16, RED);
+    }
+    ctx.save(); ctx.shadowColor = SC; ctx.shadowBlur = 10; ctx.fillStyle = SC; ctx.fillRect(w * 0.1, sy - 1, w * 0.8, 2); ctx.restore();
+    ctx.fillStyle = '#1A1E25'; ctx.fillRect(0, sy - 18, w * 0.1, 36); ctx.fillRect(w * 0.9, sy - 18, w * 0.1, 36);
+    ctx.fillStyle = SC; ctx.fillRect(w * 0.1 - 3, sy - 8, 3, 16); ctx.fillRect(w * 0.9, sy - 8, 3, 16);
+    ctx.fillStyle = '#8B93A1'; ctx.font = '500 10px "Geist Mono", monospace'; ctx.fillText('NIR + VISION', 12, sy - 26);
+  }
+  function drawNirStatic(ctx, w, h) {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(255,255,255,.05)'; ctx.beginPath(); ctx.moveTo(0, h * 0.5); ctx.lineTo(w, h * 0.5); ctx.stroke();
+    ctx.beginPath();
+    for (let i = 0; i <= 90; i++) { const u = i / 90, px = u * w, v = 0.4 + 0.16 * Math.exp(-((u - 0.45) ** 2) / 0.01) + 0.1 * Math.exp(-((u - 0.72) ** 2) / 0.006), py = h * (1 - v); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.strokeStyle = ACC; ctx.lineWidth = 1.4; ctx.stroke();
+  }
+  function paintEvidence(c, seed, flagged) {
+    const g = fit(c); if (!g) return false;
+    const { x: ctx, w, h } = g;
+    ctx.clearRect(0, 0, w, h);
+    let s = seed; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < 8; i++) { const fx = rnd() * w, fy = rnd() * h, r = 1.6 + rnd() * 2.6; ctx.fillStyle = `rgba(200,232,245,${0.12 + rnd() * 0.22})`; ctx.beginPath(); ctx.ellipse(fx, fy, r, r * 0.65, rnd() * 6, 0, 7); ctx.fill(); }
+    const bx = w * (flagged ? 0.56 : 0.42), by = h * 0.5, bs = flagged ? 13 : 11, col = flagged ? RED : ACC;
+    bracket(ctx, bx - bs / 2, by - bs / 2, bs, bs, col);
+    ctx.fillStyle = col; ctx.font = '600 7px "Geist Mono", monospace'; ctx.textBaseline = 'middle'; ctx.fillText(flagged ? 'PVC' : 'PET', bx + bs / 2 + 3, by);
+    return true;
+  }
+  let evDone = false;
+  addFrame(() => { if (evDone) return; const a = paintEvidence(els.ev1, 11, false), b = paintEvidence(els.ev2, 29, true); if (a && b) evDone = true; });
 
   mkStream(els.simL, 'L');
   mkStream(els.simR, 'R');

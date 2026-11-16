@@ -33,6 +33,31 @@ npx vercel --prod   # production deploy
 Or import the repo in the Vercel dashboard. Framework preset: **Other** (no build step).
 `vercel.json` adds long-cache headers for `vendor/` and security headers.
 
+## Lead capture (serverless)
+
+The deployment-assessment modal and the inline form POST to `api/lead.js`, a Vercel
+Node function that validates the payload, blocks bots (honeypot + per-IP rate limit)
+and emails the lead via the [Resend](https://resend.com) REST API.
+
+Set two environment variables in **Vercel → Project → Settings → Environment Variables**
+(Production + Preview), then redeploy:
+
+| Variable | Value |
+| --- | --- |
+| `RESEND_API_KEY` | A Resend API key (`https://resend.com/api-keys`) |
+| `LEAD_TO_EMAIL` | The inbox that should receive leads |
+
+Until these are set, submissions return a clean "Email service is not configured yet"
+error (the UI shows it; nothing is faked). The `from` address is `onboarding@resend.dev`
+for now — swap it for a verified domain sender once DNS is set up.
+
+## Performance
+
+Desktop runs the full WebGL hero; **mobile (≤ 760px) shows a static render of the same
+scene** (`assets/hero-poster.jpg`) and never downloads Three.js, keeping Lighthouse mobile
+performance ≥ 90. `prefers-reduced-motion` renders a single static hero frame and freezes
+the simulation and map.
+
 ## Structure
 
 ```
