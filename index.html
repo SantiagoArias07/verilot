@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2308090C'/%3E%3Crect x='8' y='8' width='16' height='16' fill='none' stroke='%2300E5FF' stroke-width='2'/%3E%3Crect x='13' y='13' width='6' height='6' fill='%2300E5FF'/%3E%3C/svg%3E">
+<meta name="description" content="VERILOT certifies recycled polymer purity at the source using continuous NIR spectroscopy and Edge AI — the trust layer for circular manufacturing.">
+<title>VERILOT — The trust layer for circular manufacturing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="modulepreload" href="/vendor/three.module.js">
+<link rel="stylesheet" href="/styles.css">
+<script type="importmap">
+{ "imports": { "three": "/vendor/three.module.js" } }
+</script>
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body>
+<div id="app" style="background:#08090C; color:#EEF1F5; min-height:100vh; overflow-x:clip;">
+
+<nav style="position:sticky; top:0; z-index:50; height:66px; box-sizing:border-box; display:flex; align-items:center; gap:24px; padding:0 clamp(20px,5vw,64px); background:rgba(8,9,12,0.72); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid #1E222B;">
+  <a href="#top" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:#EEF1F5; flex:none;">
+    <span style="width:14px; height:14px; border:1.5px solid var(--acc,#00E5FF); display:grid; place-items:center;"><span style="width:4px; height:4px; background:var(--acc,#00E5FF);"></span></span>
+    <span style="font-weight:600; font-size:15px; letter-spacing:0.22em;">VERILOT</span>
+  </a>
+  <div class="nav-links" style="flex:1 1 auto; min-width:0; overflow:hidden; display:flex; justify-content:center; gap:28px; white-space:nowrap; font-size:13.5px; color:#9BA3AF;">
+    <a href="#problem" style="text-decoration:none;">Problem</a>
+    <a href="#hardware" style="text-decoration:none;">Hardware</a>
+    <a href="#simulation" style="text-decoration:none;">Live Demo</a>
+    <a href="#certificate" style="text-decoration:none;">Certificate</a>
+    <a href="#pricing" style="text-decoration:none;">Pricing</a>
+    <a href="#network" style="text-decoration:none;">Network</a>
+  </div>
+  <button type="button" class="nav-cta" data-open-modal style="flex:none; cursor:pointer; font-family:inherit; text-decoration:none; font-size:13.5px; font-weight:500; padding:9px 16px; border-radius:999px; border:1px solid #2A303B; background:transparent; color:#EEF1F5;">Book a deployment</button>
+  <button type="button" id="navBurger" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span><span></span></button>
+  <div id="navMenu" class="nav-menu">
+    <a href="#problem">Problem</a>
+    <a href="#hardware">Hardware</a>
+    <a href="#simulation">Live Demo</a>
+    <a href="#certificate">Certificate</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#network">Network</a>
+  </div>
+</nav>
+
+<header id="top" data-screen-label="01 Hero" style="position:relative; height:calc(100vh - 66px); min-height:660px; overflow:hidden; background:radial-gradient(ellipse 60% 70% at 66% 70%, #10141B 0%, #08090C 70%); border-bottom:1px solid #1E222B;">
+  <div id="heroPoster" aria-hidden="true"></div>
+  <canvas id="heroGL" style="position:absolute; inset:0; width:100%; height:100%; display:block; opacity:0; transition:opacity .9s ease;"></canvas>
+  <canvas id="heroOverlay" style="position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; opacity:0; transition:opacity .9s ease .1s;"></canvas>
+  <div style="position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg, rgba(8,9,12,0.96) 0%, rgba(8,9,12,0.78) 34%, rgba(8,9,12,0) 62%), linear-gradient(0deg, rgba(8,9,12,0.9) 0%, rgba(8,9,12,0) 26%), linear-gradient(180deg, rgba(8,9,12,0.7) 0%, rgba(8,9,12,0) 22%);"></div>
+  <div class="hero-stage" style="position:relative; height:100%; max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,64px) 120px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; gap:28px;">
+    <div class="hero-rise" style="align-self:flex-start; display:flex; align-items:center; gap:10px; padding:7px 12px; border:1px solid #1E222B; border-radius:999px; background:rgba(17,19,24,0.7); backdrop-filter:blur(8px); font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#C5CBD3;">
+      <span style="width:6px; height:6px; border-radius:50%; background:var(--acc,#00E5FF); box-shadow:0 0 10px var(--acc,#00E5FF);"></span>OPTICAL QUALITY INFRASTRUCTURE · REAL-TIME BATCH CERTIFICATION
+    </div>
+    <h1 id="heroHeadline" style="margin:0; font-weight:500; font-size:clamp(44px,6.6vw,100px); line-height:0.95; letter-spacing:-0.045em; max-width:12ch; text-wrap:balance;">The trust layer for circular manufacturing.</h1>
+    <p class="hero-rise" style="margin:0; max-width:540px; font-size:clamp(16px,1.4vw,19px); line-height:1.55; color:#AEB5C0; text-wrap:pretty;">We certify recycled polymer purity at the source using continuous NIR spectroscopy and Edge AI—eliminating batch rejections and unlocking global supply chains.</p>
+    <div class="hero-rise" style="display:flex; flex-wrap:wrap; gap:12px;">
+      <button type="button" class="btn-primary" data-open-modal style="cursor:pointer; font-family:inherit; border:0; text-decoration:none; background:var(--acc,#00E5FF); color:#08090C; font-weight:600; font-size:15px; padding:15px 22px; border-radius:999px; box-shadow:0 0 32px rgba(0,229,255,0.28);">Deploy a Module ($0 CapEx)</button>
+      <a href="#certificate" class="btn-ghost" data-inspect-cert style="text-decoration:none; color:#EEF1F5; font-weight:500; font-size:15px; padding:15px 22px; border-radius:999px; border:1px solid rgba(255,255,255,0.18); background:rgba(17,19,24,0.5); backdrop-filter:blur(8px);">Inspect Sample Certificate</a>
+    </div>
+  </div>
+  <div class="hero-hud" style="position:absolute; left:clamp(16px,4vw,48px); right:clamp(16px,4vw,48px); bottom:24px; max-width:1240px; margin:0 auto; display:flex; flex-wrap:wrap; background:rgba(17,19,24,0.72); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid #1E222B; border-radius:12px; font-family:'Geist Mono',monospace; font-size:11.5px; letter-spacing:0.1em; color:#9BA3AF; overflow:hidden;">
+    <div style="flex:1 1 180px; display:flex; align-items:center; gap:10px; padding:14px 18px; border-right:1px solid #1E222B;"><span class="hud-live" style="width:7px; height:7px; border-radius:50%; background:#EF4444; box-shadow:0 0 10px #EF4444;"></span><span style="color:#EEF1F5;">LIVE STREAM · LINE 02</span></div>
+    <div style="flex:1 1 180px; display:flex; align-items:center; gap:8px; padding:14px 18px; border-right:1px solid #1E222B;"><span id="heroBatch">BATCH #0404</span><span>·</span><span style="color:var(--acc,#00E5FF);">GRADE A</span></div>
+    <div style="flex:1 1 120px; display:flex; align-items:center; gap:8px; padding:14px 18px; border-right:1px solid #1E222B;">PET <span id="heroPet" style="color:#EEF1F5;">98.1%</span></div>
+    <div style="flex:1 1 150px; display:flex; align-items:center; gap:8px; padding:14px 18px; border-right:1px solid #1E222B;">CONFIDENCE <span style="color:#EEF1F5;">95%</span></div>
+    <div style="flex:1 1 140px; display:flex; align-items:center; gap:8px; padding:14px 18px;">MASS <span id="heroKg" style="color:#EEF1F5;">784.2 kg</span></div>
+  </div>
+</header>
+
+<div style="border-bottom:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; padding:22px clamp(20px,5vw,64px); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 32px; font-family:'Geist Mono',monospace; font-size:11.5px; letter-spacing:0.1em; color:#8B93A1; text-transform:uppercase;">
+    <span style="color:#C5CBD3;">Deployed across North America, Europe &amp; Asia</span>
+    <div style="display:flex; flex-wrap:wrap; gap:10px 28px;"><span>Monterrey</span><span>Ohio</span><span>Stuttgart</span><span>Shenzhen</span></div>
+  </div>
+</div>
+
+<section id="problem" data-screen-label="02 Problem" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px);">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:clamp(48px,6vw,80px);">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); gap:40px 64px; align-items:end;">
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">The problem</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(34px,4.6vw,64px); line-height:1.02; letter-spacing:-0.035em; text-wrap:balance;">Recycling doesn’t fail for lack of material. It fails because no one trusts what they buy.</h2>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:clamp(96px,14vw,200px); font-weight:300; line-height:0.85; letter-spacing:-0.06em;"><span class="stat-count" data-to="9" data-suffix="">9</span><span style="color:var(--acc,#00E5FF);">%</span></div>
+        <p style="margin:0; font-size:16px; line-height:1.5; color:#AEB5C0; max-width:420px;">of plastic waste worldwide is recycled. <span style="color:#8B93A1;">OECD, Global Plastics Outlook 2022.</span></p>
+      </div>
+    </div>
+    <p style="margin:0; max-width:760px; font-size:18px; line-height:1.6; color:#AEB5C0; text-wrap:pretty;">A buyer receiving recycled flake can’t tell whether it carries PVC, metal, foreign caps or moisture until it’s processed—and one bad batch can damage an extruder or scrap an entire production run. Today, quality is checked by hand, too late, and to different standards at every plant.</p>
+    <div class="problem-steps" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); border-top:1px solid #1E222B;">
+      <div class="problem-step" data-step="1" style="padding:24px 24px 24px 0; display:flex; flex-direction:column; gap:14px; border-right:1px solid #1E222B;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:#8B93A1;">01</span>
+        <span style="font-size:17px; line-height:1.4;">The plant grinds, washes and bags the flake.</span>
+      </div>
+      <div class="problem-step" data-step="2" style="padding:24px; display:flex; flex-direction:column; gap:14px; border-right:1px solid #1E222B;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:#8B93A1;">02</span>
+        <span style="font-size:17px; line-height:1.4;">The batch ships with no reliable quality data.</span>
+      </div>
+      <div class="problem-step" data-step="3" style="padding:24px; display:flex; flex-direction:column; gap:14px; border-right:1px solid #1E222B;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:#8B93A1;">03</span>
+        <span style="font-size:17px; line-height:1.4;">The buyer inspects by hand or sends samples to a lab.</span>
+      </div>
+      <div class="problem-step problem-step--fail" data-step="4" style="padding:24px; display:flex; flex-direction:column; gap:14px; background:rgba(239,68,68,0.06); border-top:2px solid #EF4444; margin-top:-1px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:#EF4444;">04</span>
+        <span style="font-size:17px; line-height:1.4;">Price penalty, rejection or landfill.</span>
+      </div>
+    </div>
+    <p style="margin:0; font-size:clamp(22px,2.4vw,32px); line-height:1.3; letter-spacing:-0.02em; max-width:900px; text-wrap:balance;">What’s missing is <span style="color:var(--acc,#00E5FF);">trusted quality data</span>—generated at the source and travelling with every batch.</p>
+  </div>
+</section>
+
+<section id="how" data-screen-label="03 How it works" data-reveal style="padding:clamp(72px,9vw,120px) clamp(20px,5vw,64px); background:#0B0D11; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:48px;">
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:end;">
+      <div style="display:flex; flex-direction:column; gap:18px; max-width:640px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">How it works</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(32px,4vw,54px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">One module on the outfeed belt. One certificate per batch.</h2>
+      </div>
+      <p style="margin:0; max-width:400px; font-size:16px; line-height:1.55; color:#9BA3AF;">Right before bagging, the system scans and weighs every gram. When the batch closes, it issues a certificate with estimated composition, evidence and an explicit confidence level.</p>
+    </div>
+    <div class="pipeline" style="position:relative; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:1px; background:#1E222B; border:1px solid #1E222B; border-radius:14px; overflow:hidden;">
+      <div class="pipeline-pulse" aria-hidden="true"></div>
+      <div class="pipeline-step" data-step="1" style="position:relative; background:#0B0D11; padding:28px 24px 32px; display:flex; flex-direction:column; gap:12px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">01</span>
+        <span style="font-size:20px; font-weight:500; letter-spacing:-0.01em;">Measure</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#9BA3AF;">Vision and NIR spectroscopy read the stream continuously.</span>
+      </div>
+      <div class="pipeline-step" data-step="2" style="position:relative; background:#0B0D11; padding:28px 24px 32px; display:flex; flex-direction:column; gap:12px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">02</span>
+        <span style="font-size:20px; font-weight:500; letter-spacing:-0.01em;">Analyze</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#9BA3AF;">On-device AI identifies polymer type and contaminants.</span>
+      </div>
+      <div class="pipeline-step" data-step="3" style="position:relative; background:#0B0D11; padding:28px 24px 32px; display:flex; flex-direction:column; gap:12px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">03</span>
+        <span style="font-size:20px; font-weight:500; letter-spacing:-0.01em;">Close the batch</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#9BA3AF;">When the bulk bag fills, composition and grade are computed.</span>
+      </div>
+      <div class="pipeline-step" data-step="4" style="position:relative; background:#0B0D11; padding:28px 24px 32px; display:flex; flex-direction:column; gap:12px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">04</span>
+        <span style="font-size:20px; font-weight:500; letter-spacing:-0.01em;">Certify</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#9BA3AF;">A tamper-evident certificate with QR code and attached evidence.</span>
+      </div>
+      <div class="pipeline-step" data-step="5" style="position:relative; background:#0B0D11; padding:28px 24px 32px; display:flex; flex-direction:column; gap:12px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">05</span>
+        <span style="font-size:20px; font-weight:500; letter-spacing:-0.01em;">Sell &amp; report</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#9BA3AF;">Share with buyers; data flows straight into ESG reporting.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hardware" data-screen-label="04 Hardware" style="position:relative; height:320vh;">
+  <div id="hwSticky" style="position:sticky; top:66px; height:calc(100vh - 66px); overflow:hidden; display:flex; align-items:center; padding:0 clamp(20px,5vw,64px); box-sizing:border-box;">
+    <div style="max-width:1240px; width:100%; margin:0 auto; display:grid; grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr); gap:24px clamp(16px,4vw,48px); align-items:center;">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">X-Ray Architecture</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(22px,min(3.2vw,5vh),44px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Measures everything. Touches nothing.</h2>
+        <div class="hw-rows" style="display:flex; flex-direction:column; margin-top:2px;">
+          <div class="hw-row" data-comp="1" style="display:grid; grid-template-columns:36px 1fr; gap:1px 10px; padding:6px 0; border-top:1px solid #1E222B; cursor:pointer; opacity:clamp(0.25, calc(var(--p,0) * 8 + 0.6), 1);">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF); padding-top:3px;">01</span>
+            <span style="font-size:15px; font-weight:500;">High-speed machine vision</span>
+            <span></span><span style="font-size:12.5px; line-height:1.35; color:#9BA3AF; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">Flags visible contaminants and colorimetry: caps, labels, metal.</span>
+          </div>
+          <div class="hw-row" data-comp="2" style="display:grid; grid-template-columns:36px 1fr; gap:1px 10px; padding:6px 0; border-top:1px solid #1E222B; cursor:pointer; opacity:clamp(0.25, calc(var(--p,0) * 8 - 0.6), 1);">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF); padding-top:3px;">02</span>
+            <span style="font-size:15px; font-weight:500;">NIR spectral sensor</span>
+            <span></span><span style="font-size:12.5px; line-height:1.35; color:#9BA3AF; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">Identifies the exact polymer—PET, PP, HDPE—in milliseconds.</span>
+          </div>
+          <div class="hw-row" data-comp="3" style="display:grid; grid-template-columns:36px 1fr; gap:1px 10px; padding:6px 0; border-top:1px solid #1E222B; cursor:pointer; opacity:clamp(0.25, calc(var(--p,0) * 8 - 1.8), 1);">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF); padding-top:3px;">03</span>
+            <span style="font-size:15px; font-weight:500;">Edge AI unit + connectivity</span>
+            <span></span><span style="font-size:12.5px; line-height:1.35; color:#9BA3AF; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">Processes on-site, offline-tolerant; syncs over Wi-Fi or LTE.</span>
+          </div>
+          <div class="hw-row" data-comp="4" style="display:grid; grid-template-columns:36px 1fr; gap:1px 10px; padding:6px 0; border-top:1px solid #1E222B; cursor:pointer; opacity:clamp(0.25, calc(var(--p,0) * 8 - 3), 1);">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF); padding-top:3px;">04</span>
+            <span style="font-size:15px; font-weight:500;">IP65 industrial chassis</span>
+            <span></span><span style="font-size:12.5px; line-height:1.35; color:#9BA3AF; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">Sealed, air-purged optics against dust, grease and vibration.</span>
+          </div>
+          <div class="hw-row" data-comp="5" style="display:grid; grid-template-columns:36px 1fr; gap:1px 10px; padding:6px 0; border-top:1px solid #1E222B; cursor:pointer; opacity:clamp(0.25, calc(var(--p,0) * 8 - 4.2), 1);">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF); padding-top:3px;">05</span>
+            <span style="font-size:15px; font-weight:500;">Controlled illumination</span>
+            <span></span><span style="font-size:12.5px; line-height:1.35; color:#9BA3AF; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">Constant light so every reading is directly comparable.</span>
+          </div>
+          <div class="hw-row" data-comp="6" style="display:grid; grid-template-columns:36px 1fr; gap:1px 10px; padding:6px 0; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B; cursor:pointer; opacity:clamp(0.25, calc(var(--p,0) * 8 - 5.4), 1);">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF); padding-top:3px;">06</span>
+            <span style="font-size:15px; font-weight:500;">In-line belt scale</span>
+            <span></span><span style="font-size:12.5px; line-height:1.35; color:#9BA3AF; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">Weighs material in motion to close each batch precisely.</span>
+          </div>
+        </div>
+      </div>
+      <div class="exploded" style="position:relative; height:min(560px,70vh); display:flex; align-items:center; justify-content:center; perspective:1800px;">
+        <div style="position:absolute; left:0; bottom:24px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1; text-transform:uppercase;">Exploded view · VERILOT M1</div>
+        <div class="exploded-callout" id="explodedCallout" aria-hidden="true"></div>
+        <div class="exploded-stack" style="position:relative; width:min(250px,26vw,34vh); height:min(250px,26vw,34vh); transform-style:preserve-3d; transform:translateY(30%) rotateX(58deg) rotateZ(-38deg);">
+          <div style="position:absolute; inset:-45%; background:radial-gradient(circle, rgba(0,229,255,0.16), transparent 62%); transform:translateZ(-20px);"></div>
+          <div class="hw-layer" data-comp="6" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(0px);">
+            <div style="position:absolute; inset:0; transform:translateZ(-8px); background:#050608; border:1px solid rgba(255,255,255,0.05);"></div>
+            <div style="position:absolute; inset:0; background:#111318; border:1px solid #2A303B;">
+              <div style="position:absolute; left:10%; top:10%; width:16px; height:16px; border-radius:50%; border:2px solid #4A5260;"></div>
+              <div style="position:absolute; right:10%; top:10%; width:16px; height:16px; border-radius:50%; border:2px solid #4A5260;"></div>
+              <div style="position:absolute; left:10%; bottom:10%; width:16px; height:16px; border-radius:50%; border:2px solid #4A5260;"></div>
+              <div style="position:absolute; right:10%; bottom:10%; width:16px; height:16px; border-radius:50%; border:2px solid #4A5260;"></div>
+              <span style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#8B93A1;">06 · SCALE</span>
+            </div>
+          </div>
+          <div class="hw-layer" data-comp="5" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(16px + var(--p,0) * 46px));">
+            <div style="position:absolute; inset:0; box-sizing:border-box; border:14px solid #1A1E26; box-shadow:inset 0 0 0 1px var(--acc,#00E5FF), inset 0 0 36px rgba(0,229,255,0.35), 0 0 30px rgba(0,229,255,0.15);"></div>
+            <span style="position:absolute; left:22px; top:22px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">05 · LIGHT</span>
+          </div>
+          <div class="hw-layer" data-comp="2" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(32px + var(--p,0) * 92px));">
+            <div style="position:absolute; inset:0; transform:translateZ(-7px); background:#050608;"></div>
+            <div style="position:absolute; inset:0; background:#14171D; border:1px solid #2A303B;">
+              <div style="position:absolute; left:18%; right:18%; top:40%; height:20%; border:1px solid rgba(255,255,255,0.2); background:repeating-linear-gradient(90deg, rgba(245,158,11,0.75) 0 2px, transparent 2px 7px);"></div>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">02 · NIR</span>
+            </div>
+          </div>
+          <div class="hw-layer" data-comp="1" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(48px + var(--p,0) * 138px));">
+            <div style="position:absolute; inset:0; transform:translateZ(-7px); background:#050608;"></div>
+            <div style="position:absolute; inset:0; background:#161A21; border:1px solid #2A303B;">
+              <div style="position:absolute; left:28%; top:28%; width:44%; height:44%; box-sizing:border-box; border-radius:50%; border:8px solid #252A33; background:radial-gradient(circle at 38% 36%, #3E5560 0%, #12161C 38%, #040506 70%); box-shadow:0 0 0 1px rgba(255,255,255,0.12);"></div>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">01 · VISION</span>
+            </div>
+          </div>
+          <div class="hw-layer" data-comp="3" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(64px + var(--p,0) * 184px));">
+            <div style="position:absolute; inset:0; transform:translateZ(-6px); background:#050608;"></div>
+            <div style="position:absolute; inset:0; background-color:#0C1216; background-image:repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 14px), repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 14px); border:1px solid #2A303B;">
+              <div style="position:absolute; left:33%; top:33%; width:34%; height:34%; background:#1C2129; border:1px solid var(--acc,#00E5FF); box-shadow:0 0 24px rgba(0,229,255,0.25);"></div>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">03 · EDGE AI</span>
+            </div>
+          </div>
+          <div class="hw-layer" data-comp="4" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(80px + var(--p,0) * 230px)); opacity:calc(1 - var(--p,0) * 0.2);">
+            <div style="position:absolute; inset:0; transform:translateZ(-10px); background:#050608;"></div>
+            <div style="position:absolute; inset:0; background:linear-gradient(135deg, #3C424D, #1A1E25); border:1px solid rgba(255,255,255,0.22);">
+              <div style="position:absolute; right:12%; top:14%; width:22%; height:46%; background:repeating-linear-gradient(0deg, #12151A 0 3px, transparent 3px 8px);"></div>
+              <span style="position:absolute; left:14%; bottom:14%; font-weight:600; font-size:15px; letter-spacing:0.28em; color:rgba(255,255,255,0.35);">VERILOT</span>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">04 · IP65</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="software" data-screen-label="05 Software" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px); border-top:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:48px;">
+    <div style="display:flex; flex-direction:column; gap:18px; max-width:760px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Software platform</div>
+      <h2 style="margin:0; font-weight:500; font-size:clamp(32px,4vw,54px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Hardware is the entry point. The value compounds in software.</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:16px;">
+      <div style="padding:28px; border:1px solid #1E222B; border-radius:16px; background:#111318; display:flex; flex-direction:column; gap:18px;">
+        <div style="display:flex; justify-content:space-between; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1; text-transform:uppercase;"><span>Layer 1</span><span>On the module</span></div>
+        <div style="font-size:24px; font-weight:500; letter-spacing:-0.02em;">At the plant</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14.5px; line-height:1.5; color:#AEB5C0;">
+          <span>Classifies every image and spectral reading in real time.</span>
+          <span>Estimates batch composition with a confidence interval.</span>
+          <span>Stores evidence: images and spectra for every batch.</span>
+          <span>Runs fully offline and syncs when connected.</span>
+        </div>
+      </div>
+      <div style="padding:28px; border:1px solid #1E222B; border-radius:16px; background:#111318; display:flex; flex-direction:column; gap:18px;">
+        <div style="display:flex; justify-content:space-between; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1; text-transform:uppercase;"><span>Layer 2</span><span>Web platform</span></div>
+        <div style="font-size:24px; font-weight:500; letter-spacing:-0.02em;">In the cloud</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14.5px; line-height:1.5; color:#AEB5C0;">
+          <span>Full batch ledger with complete history.</span>
+          <span>Cryptographically hashed certificates—alter one value and it stops validating.</span>
+          <span>Quality dashboard, contamination alerts and automated ESG reports.</span>
+          <span>ERP integration (e.g. SAP) on enterprise plans.</span>
+        </div>
+      </div>
+      <div style="padding:28px; border:1px solid #1E222B; border-radius:16px; background:linear-gradient(180deg,#111318,#0B0D11); display:flex; flex-direction:column; gap:18px;">
+        <div style="display:flex; justify-content:space-between; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1; text-transform:uppercase;"><span>Layer 3</span><span style="color:#F59E0B;">Early access</span></div>
+        <div style="font-size:24px; font-weight:500; letter-spacing:-0.02em;">Buyer network</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14.5px; line-height:1.5; color:#AEB5C0;">
+          <span>Sellers list certified batches; buyers review evidence before purchase.</span>
+          <span>Transaction fee on every closed sale.</span>
+          <span>Rolling out region by region as certified supply density grows.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="simulation" data-screen-label="06 Live demo" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px); background:#0B0D11; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:44px;">
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:end;">
+      <div style="display:flex; flex-direction:column; gap:18px; max-width:640px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Live simulation</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(32px,4vw,54px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Same scanner. Two batches. A decision in seconds.</h2>
+      </div>
+      <p style="margin:0; max-width:400px; font-size:16px; line-height:1.55; color:#9BA3AF;">Inject contaminant into the clean stream and watch the grade drop in real time—before a single bag leaves the plant.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); gap:16px;">
+      <div style="border:1px solid rgba(239,68,68,0.35); border-radius:18px; overflow:hidden; background:#08090C; display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid #1E222B; font-family:'Geist Mono',monospace; font-size:12px;">
+          <span style="color:#EEF1F5;">BATCH 0401 · Mixed Flake</span>
+          <span style="display:flex; align-items:center; gap:8px; color:#EF4444;"><span style="width:7px; height:7px; border-radius:50%; background:#EF4444; box-shadow:0 0 10px #EF4444;"></span>ALERT</span>
+        </div>
+        <div style="position:relative; height:360px;"><canvas id="simL" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas></div>
+        <div style="border-top:1px solid #1E222B; padding:20px; display:flex; flex-direction:column; gap:14px; min-height:250px;">
+          <div style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:4px;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#8B93A1;">GRADE</span><span style="font-size:28px; font-weight:500; color:#EF4444;">D</span></div>
+            <div style="display:flex; flex-direction:column; gap:4px;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#8B93A1;">DEVIATION</span><span style="font-size:28px; font-weight:500; color:#F59E0B;">+6.8%</span></div>
+            <div style="display:flex; flex-direction:column; gap:4px;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#8B93A1;">ALERTS</span><span id="leftCount" style="font-size:28px; font-weight:500;">0</span></div>
+          </div>
+          <div id="alertList" style="display:flex; flex-direction:column; gap:6px;"></div>
+        </div>
+      </div>
+      <div style="border:1px solid rgba(0,229,255,0.3); border-radius:18px; overflow:hidden; background:#08090C; display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid #1E222B; font-family:'Geist Mono',monospace; font-size:12px;">
+          <span style="color:#EEF1F5;">BATCH 0402 · Clear PET</span>
+          <span style="display:flex; align-items:center; gap:8px; color:#00E5FF;"><span id="ppDot" style="width:7px; height:7px; border-radius:50%; background:#00E5FF; box-shadow:0 0 10px #00E5FF;"></span><span id="ppTag">GRADE A</span></span>
+        </div>
+        <div style="position:relative; height:360px;">
+          <canvas id="simR" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas>
+          <div style="position:absolute; right:14px; bottom:14px; display:flex; gap:8px;">
+            <button type="button" id="simReset" class="btn-reset" style="cursor:pointer; background:rgba(17,19,24,0.85); color:#C5CBD3; border:1px solid #2A303B; border-radius:999px; padding:10px 14px; font-size:13px;">Reset</button>
+            <button type="button" id="simInject" class="btn-inject" style="cursor:pointer; background:#F59E0B; color:#08090C; border:0; border-radius:999px; padding:10px 16px; font-size:13px; font-weight:600;">Inject Contaminant</button>
+          </div>
+        </div>
+        <div style="border-top:1px solid #1E222B; padding:20px; display:grid; grid-template-columns:minmax(0,1fr) 112px; gap:20px; min-height:250px; box-sizing:border-box;">
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px;">
+              <span style="font-family:'Geist Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#8B93A1;">DIGITAL BATCH PASSPORT</span>
+              <span id="ppStatus" style="font-family:'Geist Mono',monospace; font-size:11px; color:#00E5FF;">Certificate issued</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:16px;">
+              <span id="ppGrade" style="font-size:44px; font-weight:500; line-height:1; letter-spacing:-0.03em; color:#00E5FF;">A</span>
+              <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                <div style="display:flex; justify-content:space-between; font-size:14px;"><span style="color:#9BA3AF;">PET</span><span id="ppPet">98.1%</span></div>
+                <div style="height:3px; background:#1E222B; border-radius:2px; overflow:hidden;"><div id="ppBar" style="width:87%; height:100%; background:#00E5FF; transition:width .4s, background .4s;"></div></div>
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 16px; font-size:13px;">
+              <div style="display:flex; justify-content:space-between; gap:8px;"><span style="color:#8B93A1;">Confidence</span><span id="ppConf">95%</span></div>
+              <div style="display:flex; justify-content:space-between; gap:8px;"><span style="color:#8B93A1;">Mass</span><span>850 kg</span></div>
+              <div style="display:flex; justify-content:space-between; gap:8px;"><span style="color:#8B93A1;">CO₂e avoided*</span><span>≈ 1.3 t</span></div>
+              <div style="display:flex; justify-content:space-between; gap:8px;"><span style="color:#8B93A1;">Hash</span><span id="ppHash" style="font-family:'Geist Mono',monospace; font-size:12px;">7f3a…c91e</span></div>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px;">
+              <div style="height:38px; border-radius:6px; background:repeating-linear-gradient(135deg,#161A21 0 5px,#111318 5px 10px); display:grid; place-items:center; font-family:'Geist Mono',monospace; font-size:9px; color:#8B93A1;">evidence</div>
+              <div style="height:38px; border-radius:6px; background:repeating-linear-gradient(135deg,#161A21 0 5px,#111318 5px 10px); display:grid; place-items:center; font-family:'Geist Mono',monospace; font-size:9px; color:#8B93A1;">evidence</div>
+              <div style="position:relative; height:38px; border-radius:6px; overflow:hidden; background:#0E1116; border:1px solid #1A1E26;"><canvas id="nirWave" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas><span style="position:absolute; left:6px; top:4px; font-family:'Geist Mono',monospace; font-size:8px; letter-spacing:0.08em; color:#6B7280;">NIR</span></div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:stretch;">
+            <div style="background:#EEF1F5; border-radius:8px; padding:6px; aspect-ratio:1;"><canvas id="qrSmall" style="width:100%; height:100%; display:block; image-rendering:pixelated;"></canvas></div>
+            <span style="font-family:'Geist Mono',monospace; font-size:10px; line-height:1.4; color:#8B93A1; text-align:center;">Scan to verify</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin:0; font-family:'Geist Mono',monospace; font-size:11px; color:#8B93A1;">*Estimated CO₂e avoided by replacing virgin resin with certified recycled flake.</p>
+  </div>
+</section>
+
+<section id="certificate" data-screen-label="07 Certificate" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px);">
+  <div style="max-width:1240px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); gap:56px 72px; align-items:center;">
+    <div style="display:flex; flex-direction:column; gap:36px;">
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">The certificate is the product</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(32px,4vw,54px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Buyers don’t have to trust the seller. They can verify the batch.</h2>
+        <p style="margin:0; font-size:17px; line-height:1.6; color:#AEB5C0; text-wrap:pretty;">Every certificate shows what was measured, with what confidence, backed by what evidence—turning a discounted batch into a premium one.</p>
+      </div>
+      <div style="padding:24px; border:1px solid #1E222B; background:#111318; border-radius:14px; display:flex; flex-direction:column; gap:10px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#F59E0B; text-transform:uppercase;">Statistical honesty, by design</span>
+        <p style="margin:0; font-size:15.5px; line-height:1.55; color:#C5CBD3; text-wrap:pretty;">We never claim “100% pure.” Each certificate carries an estimate with an explicit confidence level, continuously calibrated against periodic laboratory audits. That rigor is what makes it bankable.</p>
+      </div>
+    </div>
+    <div id="certCard" class="cert-card" style="position:relative; background:#EEF1F5; color:#0B0D11; border-radius:6px; padding:clamp(24px,3.5vw,40px); display:flex; flex-direction:column; gap:22px; box-shadow:0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,229,255,0.15); transform:rotate(-1deg);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#545B66;">BATCH CERTIFICATE</span>
+          <span style="font-size:34px; font-weight:500; letter-spacing:-0.03em;">Batch 0402</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="width:12px; height:12px; border:1.5px solid #0B0D11; display:grid; place-items:center;"><span style="width:3px; height:3px; background:#0B0D11;"></span></span>
+          <span style="font-weight:600; font-size:12px; letter-spacing:0.22em;">VERILOT</span>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 24px; padding:18px 0; border-top:1px solid rgba(0,0,0,0.14); border-bottom:1px solid rgba(0,0,0,0.14); font-size:14px;">
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#545B66;">MATERIAL</span><span>Clear PET flake</span></div>
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#545B66;">NET MASS</span><span>850 kg</span></div>
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#545B66;">FACILITY</span><span>Facility #04 · Monterrey Industrial Hub</span></div>
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#545B66;">ISSUED</span><span>November 14, 2026</span></div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#545B66;">ESTIMATED COMPOSITION</span>
+        <div style="display:flex; height:12px; border-radius:2px; overflow:hidden; background:#D5D9E0;">
+          <div style="width:98.1%; background:#0B0D11;"></div><div style="width:1.2%; background:#F59E0B;"></div><div style="width:0.7%; background:#8B93A1;"></div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px 20px; font-size:14px;">
+          <span><b style="font-weight:600;">PET 98.1%</b> <span style="color:#545B66;">(±0.6)</span></span><span>PP 1.2%</span><span>Other 0.7%</span><span style="color:#545B66;">Metal: not detected</span>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:minmax(0,1fr) 120px; gap:24px; align-items:end;">
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px; line-height:1.45;">
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-size:40px; font-weight:500; letter-spacing:-0.03em; line-height:1;">95%</span><span style="color:#545B66;">confidence</span><span style="margin-left:auto; font-family:'Geist Mono',monospace; font-size:11px; font-weight:500; padding:4px 9px; border-radius:4px; background:#0B0D11; color:#00E5FF;">GRADE A</span></div>
+          <div><span style="color:#545B66;">Evidence:</span> 3,120 images · 410 spectral readings</div>
+          <div><span style="color:#545B66;">Lab audit:</span> 1 in every 20 batches</div>
+          <div style="font-family:'Geist Mono',monospace; font-size:12px;">SHA-256 7f3a…c91e</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <canvas id="qrBig" style="width:120px; height:120px; display:block; image-rendering:pixelated;"></canvas>
+          <span style="font-family:'Geist Mono',monospace; font-size:9.5px; color:#545B66; text-align:center;">Verifiable by any buyer</span>
+        </div>
+      </div>
+      <div id="certVerify" style="display:none; flex-direction:column; gap:8px; padding:14px; border-radius:8px; background:#0B0D11; color:#C5CBD3; font-family:'Geist Mono',monospace; font-size:11px; line-height:1.6;"></div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; border-top:1px solid rgba(0,0,0,0.14); padding-top:14px;">
+        <button type="button" id="verifyHashBtn" class="cert-btn" style="cursor:pointer; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.08em; padding:8px 14px; border-radius:999px; border:1px solid #0B0D11; background:#0B0D11; color:#00E5FF;">Verify Cryptographic Hash</button>
+        <button type="button" id="printCertBtn" class="cert-btn-ghost" style="cursor:pointer; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.08em; padding:8px 14px; border-radius:999px; border:1px solid rgba(11,13,17,0.3); background:transparent; color:#0B0D11;">Print / Export</button>
+        <span style="margin-left:auto; font-size:11.5px; color:#545B66;">Sample certificate shown for reference.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" data-screen-label="08 Zero CapEx" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px); background:#0B0D11; border-top:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:56px;">
+    <div style="display:flex; flex-direction:column; gap:18px; max-width:820px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Zero-CapEx model</div>
+      <h2 style="margin:0; font-weight:500; font-size:clamp(36px,5vw,72px); line-height:1; letter-spacing:-0.04em; text-wrap:balance;">Zero equipment investment. Pay only for certainty.</h2>
+      <p style="margin:0; font-size:17px; line-height:1.6; color:#9BA3AF; max-width:620px;">You don’t pay for the device—you pay for what it unlocks. We remove the single biggest barrier to adopting new plant equipment: a large upfront bet on unproven hardware.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr)); gap:16px;">
+      <div style="padding:32px; border:1px solid #1E222B; border-radius:18px; display:flex; flex-direction:column; gap:24px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1; text-transform:uppercase;">Traditional procurement</span>
+        <div style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:clamp(44px,5vw,64px); font-weight:300; letter-spacing:-0.04em; line-height:1; color:#8B93A1; text-decoration:line-through; text-decoration-thickness:2px;">$100k+</span><span style="font-size:14px; color:#8B93A1;">typical upfront capex per industrial NIR system</span></div>
+        <div style="display:flex; flex-direction:column; gap:12px; font-size:15px; color:#9BA3AF;">
+          <span>— Equipment sized for the largest plants</span>
+          <span>— Performance risk sits entirely with you</span>
+          <span>— Maintenance and calibration are on your team</span>
+          <span>— No certificate a buyer can independently verify</span>
+        </div>
+      </div>
+      <div style="padding:32px; border:1px solid var(--acc,#00E5FF); border-radius:18px; background:linear-gradient(180deg, rgba(0,229,255,0.07), rgba(0,229,255,0) 60%), #111318; display:flex; flex-direction:column; gap:24px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--acc,#00E5FF); text-transform:uppercase;">VERILOT</span>
+        <div style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:clamp(44px,5vw,64px); font-weight:400; letter-spacing:-0.04em; line-height:1;">$0</span><span style="font-size:14px; color:#9BA3AF;">upfront · hardware provided on loan</span></div>
+        <div style="display:flex; flex-direction:column; gap:12px; font-size:15px;">
+          <div style="display:grid; grid-template-columns:22px 1fr; gap:10px;"><span style="color:var(--acc,#00E5FF);">+</span><span><b style="font-weight:500;">Hardware installed at no cost.</b> <span style="color:#9BA3AF;">We own, insure and maintain it.</span></span></div>
+          <div style="display:grid; grid-template-columns:22px 1fr; gap:10px;"><span style="color:var(--acc,#00E5FF);">+</span><span><b style="font-weight:500;">Platform subscription.</b> <span style="color:#9BA3AF;">Software, certificates, support and upkeep.</span></span></div>
+          <div style="display:grid; grid-template-columns:22px 1fr; gap:10px;"><span style="color:var(--acc,#00E5FF);">+</span><span><b style="font-weight:500;">Per-ton certification fee.</b> <span style="color:#9BA3AF;">Scales with your throughput.</span></span></div>
+          <div style="display:grid; grid-template-columns:22px 1fr; gap:10px;"><span style="color:#8B93A1;">+</span><span style="color:#9BA3AF;">Transaction fee on buyer-network sales, where available.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border:1px solid #1E222B; border-radius:20px; overflow:hidden; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr)); background:#111318;">
+      <div style="padding:clamp(24px,3.5vw,40px); display:flex; flex-direction:column; gap:28px; border-right:1px solid #1E222B;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1; text-transform:uppercase;">ROI calculator</span>
+          <span style="font-size:22px; font-weight:500; letter-spacing:-0.02em;">How much margin are you leaving on the table?</span>
+        </div>
+        <label style="display:flex; flex-direction:column; gap:10px;">
+          <span style="display:flex; justify-content:space-between; font-size:14px; color:#9BA3AF;"><span>Tons sold per month</span><span class="calc-val" style="color:#EEF1F5; font-family:'Geist Mono',monospace;"><span id="valTons">200</span> t</span></span>
+          <input type="range" class="range-cyan" min="10" max="1500" step="10" value="200" id="rngTons">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:10px;">
+          <span style="display:flex; justify-content:space-between; font-size:14px; color:#9BA3AF;"><span>Selling price per ton</span><span style="color:#EEF1F5; font-family:'Geist Mono',monospace;">$<span id="valPrice">650</span></span></span>
+          <input type="range" class="range-cyan" min="300" max="1500" step="10" value="650" id="rngPrice">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:10px;">
+          <span style="display:flex; justify-content:space-between; font-size:14px; color:#9BA3AF;"><span>Average quality-uncertainty discount</span><span style="color:#EEF1F5; font-family:'Geist Mono',monospace;"><span id="valPenalty">12</span>%</span></span>
+          <input type="range" class="range-cyan" min="0" max="30" step="1" value="12" id="rngPenalty">
+        </label>
+      </div>
+      <div style="padding:clamp(24px,3.5vw,40px); background:#08090C; display:flex; flex-direction:column; justify-content:space-between; gap:28px;">
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--acc,#00E5FF); text-transform:uppercase;">Recoverable revenue</span>
+          <span style="font-size:clamp(48px,6vw,84px); font-weight:400; letter-spacing:-0.045em; line-height:1;"><span id="recM">$15,600</span><span style="font-size:0.35em; color:#8B93A1; letter-spacing:0;"> /mo</span></span>
+          <span style="font-size:16px; color:#9BA3AF;"><span id="recY">$187,200</span> per year · <span id="recT">$78</span> per ton</span>
+        </div>
+        <p style="margin:0; font-size:13.5px; line-height:1.55; color:#8B93A1; border-top:1px solid #1E222B; padding-top:18px; text-wrap:pretty;">Estimate based on your inputs. Subscription pricing is set during onboarding so recovered margin is a multiple of what you pay.</p>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:16px;">
+      <button type="button" class="pricing-tier" data-open-modal data-tier="Starter" style="cursor:pointer; text-align:left; font-family:inherit; background:transparent; padding:26px; border:0; border-top:1px solid #2A303B; display:flex; flex-direction:column; gap:12px; color:#EEF1F5;">
+        <span style="font-size:22px; font-weight:500;">Starter</span>
+        <span style="font-size:14px; color:#8B93A1;">Mid-size plants with a single material stream</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#C5CBD3;">1 module, 1 polymer, dashboard, certificates and ESG reporting.</span>
+        <span class="tier-cta" style="margin-top:4px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#8B93A1;">SELECT →</span>
+      </button>
+      <button type="button" class="pricing-tier pricing-tier--featured" data-open-modal data-tier="Growth" style="cursor:pointer; text-align:left; font-family:inherit; background:transparent; padding:26px; border:0; border-top:1px solid var(--acc,#00E5FF); display:flex; flex-direction:column; gap:12px; color:#EEF1F5;">
+        <span style="font-size:22px; font-weight:500;">Growth</span>
+        <span style="font-size:14px; color:#8B93A1;">High-volume recyclers</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#C5CBD3;">Multiple modules, per-batch certification and buyer-network access.</span>
+        <span class="tier-cta" style="margin-top:4px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.1em; color:var(--acc,#00E5FF);">SELECT →</span>
+      </button>
+      <button type="button" class="pricing-tier" data-open-modal data-tier="Enterprise" style="cursor:pointer; text-align:left; font-family:inherit; background:transparent; padding:26px; border:0; border-top:1px solid #2A303B; display:flex; flex-direction:column; gap:12px; color:#EEF1F5;">
+        <span style="font-size:22px; font-weight:500;">Enterprise</span>
+        <span style="font-size:14px; color:#8B93A1;">Multi-site, multi-country groups</span>
+        <span style="font-size:14.5px; line-height:1.5; color:#C5CBD3;">Multiple materials, ERP integration, cross-border traceability and API.</span>
+        <span class="tier-cta" style="margin-top:4px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#8B93A1;">SELECT →</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section id="market" data-screen-label="09 Market" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px); border-top:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:64px;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); gap:40px 72px;">
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Who we serve</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(30px,3.6vw,48px); line-height:1.05; letter-spacing:-0.035em; text-wrap:balance;">Grinding and washing plants producing clear PET and PP flake.</h2>
+        <p style="margin:0; font-size:16px; line-height:1.6; color:#9BA3AF; text-wrap:pretty;">Flake sold in bulk bags travels spread across a belt, so the sensor sees the full stream and NIR performs at its best. From there: collection centers, converters, and brands with mandatory recycled-content targets.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#8B93A1;">Impact we measure</div>
+        <div style="display:flex; flex-direction:column;">
+          <div style="display:grid; grid-template-columns:32px 1fr; padding:12px 0; border-top:1px solid #1E222B; font-size:15px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">01</span><span>Tons sold instead of landfilled or incinerated</span></div>
+          <div style="display:grid; grid-template-columns:32px 1fr; padding:12px 0; border-top:1px solid #1E222B; font-size:15px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">02</span><span>CO₂ avoided by replacing virgin resin</span></div>
+          <div style="display:grid; grid-template-columns:32px 1fr; padding:12px 0; border-top:1px solid #1E222B; font-size:15px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">03</span><span>Price uplift per ton for sellers</span></div>
+          <div style="display:grid; grid-template-columns:32px 1fr; padding:12px 0; border-top:1px solid #1E222B; font-size:15px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">04</span><span>Rejected or discounted batches avoided</span></div>
+          <div style="display:grid; grid-template-columns:32px 1fr; padding:12px 0; border-top:1px solid #1E222B; font-size:15px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">05</span><span>Additional income for collectors upstream</span></div>
+          <div style="display:grid; grid-template-columns:32px 1fr; padding:12px 0; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B; font-size:15px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">06</span><span>Recycled content buyers can actually use</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <span style="font-size:24px; font-weight:500; letter-spacing:-0.02em;">Where VERILOT fits</span>
+      <div style="overflow-x:auto; border:1px solid #1E222B; border-radius:16px; background:#111318;">
+        <div style="min-width:760px; display:grid; grid-template-columns:1.2fr 1.1fr 1.3fr; font-size:14.5px;">
+          <div style="padding:14px 20px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#8B93A1; border-bottom:1px solid #1E222B;">ALTERNATIVE</div>
+          <div style="padding:14px 20px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#8B93A1; border-bottom:1px solid #1E222B;">WHAT IT DOES</div>
+          <div style="padding:14px 20px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#8B93A1; border-bottom:1px solid #1E222B;">WHAT’S MISSING</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B;">Industrial NIR sorters</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">In-plant quality control at large facilities</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">High capex; no buyer-facing certificate</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B;">Audit-based certification schemes</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">Certify processes and sites periodically</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">No batch-level verification</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B;">Digital product passports</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">Software-based material traceability</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">Rely on manually entered data</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B;">Manual inspection &amp; lab testing</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">Buyer checks on receipt</div>
+          <div style="padding:16px 20px; border-bottom:1px solid #1E222B; color:#AEB5C0;">Slow, costly, late and subjective</div>
+          <div style="padding:18px 20px; background:rgba(0,229,255,0.07); font-weight:500; color:var(--acc,#00E5FF);">VERILOT</div>
+          <div style="padding:18px 20px; background:rgba(0,229,255,0.07);">Continuous measurement at the source, certified per batch</div>
+          <div style="padding:18px 20px; background:rgba(0,229,255,0.07);">Zero capex, built for emerging and mature markets alike</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="network" data-screen-label="10 Global network" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px) clamp(56px,7vw,96px); border-top:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:40px;">
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:end;">
+      <div style="display:flex; flex-direction:column; gap:18px; max-width:720px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Global industrial nodes</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(32px,4vw,54px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">One hardware platform. Polymers today, textiles and metals next.</h2>
+      </div>
+      <p style="margin:0; max-width:380px; font-size:16px; line-height:1.55; color:#9BA3AF;">Hubs in Monterrey, Ohio, Stuttgart and Shenzhen anchor a growing network of certified facilities.</p>
+    </div>
+    <div style="border:1px solid #1E222B; border-radius:20px; overflow:hidden; height:clamp(520px,52vw,680px);">
+      <iframe id="mapFrame" src="/map.html" title="VERILOT global network map" loading="lazy" style="width:100%; height:100%; border:0; display:block; background:#08090C;"></iframe>
+    </div>
+  </div>
+</section>
+
+<section id="faq" data-screen-label="11 Engineering FAQ" data-reveal style="padding:clamp(72px,9vw,120px) clamp(20px,5vw,64px); background:#0B0D11; border-top:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr)); gap:40px 72px;">
+    <div style="display:flex; flex-direction:column; gap:18px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Engineering FAQ</div>
+      <h2 style="margin:0; font-weight:500; font-size:clamp(30px,3.6vw,48px); line-height:1.05; letter-spacing:-0.035em; text-wrap:balance;">Hard questions, straight answers.</h2>
+    </div>
+    <div style="display:flex; flex-direction:column;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:6px 32px; padding:18px 0; border-top:1px solid #1E222B;"><span style="font-weight:500;">Baled material only shows its surface.</span><span style="color:#9BA3AF; font-size:15px; line-height:1.5;">We certify flake on the outfeed belt, where the entire stream passes the sensor.</span></div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:6px 32px; padding:18px 0; border-top:1px solid #1E222B;"><span style="font-weight:500;">NIR can’t read black plastics.</span><span style="color:#9BA3AF; font-size:15px; line-height:1.5;">We focus on clear and light polymers; additional sensing modalities are on the roadmap.</span></div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:6px 32px; padding:18px 0; border-top:1px solid #1E222B;"><span style="font-weight:500;">Dust, grease and vibration.</span><span style="color:#9BA3AF; font-size:15px; line-height:1.5;">IP65 sealed housing, air-purged optical window and continuous self-diagnostics.</span></div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:6px 32px; padding:18px 0; border-top:1px solid #1E222B;"><span style="font-weight:500;">What if a certificate is wrong?</span><span style="color:#9BA3AF; font-size:15px; line-height:1.5;">Explicit confidence intervals and recurring calibration against accredited lab samples.</span></div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:6px 32px; padding:18px 0; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B;"><span style="font-weight:500;">Who owns and services the hardware?</span><span style="color:#9BA3AF; font-size:15px; line-height:1.5;">We do. Annual contracts, modular field-swappable design, repairs in minutes.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="deploy" data-screen-label="12 Deploy" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px); border-top:1px solid #1E222B; background:radial-gradient(ellipse 60% 60% at 20% 30%, rgba(0,229,255,0.06), transparent 70%);">
+  <div style="max-width:1240px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); gap:48px 80px; align-items:start;">
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Industrial deployment</div>
+      <h2 style="margin:0; font-weight:500; font-size:clamp(38px,5vw,72px); line-height:0.98; letter-spacing:-0.045em; text-wrap:balance;">Install a module. Certify your first batch.</h2>
+      <p style="margin:0; font-size:17px; line-height:1.6; color:#9BA3AF; max-width:500px;">For grinding and washing facilities shipping PET or PP flake in bulk bags. Zero upfront cost; typical installation completes in a single shift.</p>
+      <a href="#deploy" class="dossier-link" style="align-self:flex-start; display:flex; align-items:center; gap:14px; text-decoration:none; padding:16px 20px; border:1px solid #2A303B; background:#111318; border-radius:14px; color:#EEF1F5;">
+        <span style="width:36px; height:44px; border:1px solid #3A414D; border-radius:3px; display:grid; place-items:end center; padding-bottom:6px; box-sizing:border-box; font-family:'Geist Mono',monospace; font-size:8px; color:#9BA3AF;">PDF</span>
+        <span style="display:flex; flex-direction:column; gap:2px;"><span style="font-weight:500;">Download technical dossier</span><span style="font-size:13px; color:#8B93A1;">Hardware specs, certificate schema, commercial model</span></span>
+      </a>
+    </div>
+    <div id="deployFormWrap">
+      <form id="deployForm" novalidate style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; padding:clamp(22px,3vw,32px); border:1px solid #1E222B; border-radius:20px; background:#111318;">
+        <label style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Full name<input required name="name" class="field-input" placeholder="Jane Carter" style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"></label>
+        <label style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Company / facility<input required name="company" class="field-input" placeholder="Northern Polymers Inc." style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"></label>
+        <label style="grid-column:1 / -1; display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Work email<input required type="email" name="email" class="field-input" placeholder="jane@company.com" style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"></label>
+        <label style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Primary material<select name="material" class="field-input" style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"><option>Clear PET flake</option><option>Light PP flake</option><option>HDPE</option><option>Other</option></select></label>
+        <label style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Monthly throughput<select name="throughput" class="field-input" style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"><option>Under 100 t</option><option>100–500 t</option><option>500–1,500 t</option><option>Over 1,500 t</option></select></label>
+        <button type="submit" class="btn-primary" style="grid-column:1 / -1; margin-top:6px; cursor:pointer; background:var(--acc,#00E5FF); color:#08090C; border:0; border-radius:999px; padding:16px 22px; font-size:15px; font-weight:600;">Schedule an industrial deployment</button>
+      </form>
+      <div id="deploySent" style="display:none; padding:40px 32px; border:1px solid var(--acc,#00E5FF); background:#111318; border-radius:20px; flex-direction:column; gap:14px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.14em; color:var(--acc,#00E5FF);">REQUEST RECEIVED</span>
+        <span style="font-size:28px; font-weight:500; letter-spacing:-0.02em;">Thank you. A deployment engineer will reach out within 48 hours.</span>
+        <span style="font-size:15px; color:#9BA3AF;">In the meantime, review our sample batch certificate.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:clamp(56px,7vw,96px) clamp(20px,5vw,64px) 40px; border-top:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:48px;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr)); gap:32px; font-size:14px;">
+      <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">PLATFORM</span><a href="#hardware" style="text-decoration:none; color:#C5CBD3;">VERILOT M1</a><a href="#software" style="text-decoration:none; color:#C5CBD3;">Cloud platform</a><a href="#certificate" style="text-decoration:none; color:#C5CBD3;">Batch certificates</a></div>
+      <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">COMPANY</span><a href="#network" style="text-decoration:none; color:#C5CBD3;">Network</a><a href="#pricing" style="text-decoration:none; color:#C5CBD3;">Pricing</a><a href="#deploy" style="text-decoration:none; color:#C5CBD3;">Contact sales</a></div>
+      <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">HUBS</span><span style="color:#C5CBD3;">Monterrey · Ohio</span><span style="color:#C5CBD3;">Stuttgart · Shenzhen</span></div>
+    </div>
+    <div style="font-weight:600; font-size:clamp(64px,15vw,220px); line-height:0.8; letter-spacing:0.04em; color:#12151B;">VERILOT</div>
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px 32px; font-size:13px; color:#8B93A1;">
+      <span>Recycled material you can buy with confidence.</span>
+      <span>© 2026 VERILOT. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<!-- Deployment Assessment Modal -->
+<div id="modalRoot" class="modal-root" aria-hidden="true"></div>
+
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>

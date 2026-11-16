@@ -1,0 +1,12 @@
+{
+  "name": "verilot-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VERILOT — The trust layer for circular manufacturing. Investor-grade Deep Tech landing page.",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "start": "npx --yes serve . -l 3000"
+  },
+  "license": "MIT"
+}
