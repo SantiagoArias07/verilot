@@ -74,10 +74,15 @@ export default async function handler(req, res) {
     return send(res, 503, { ok: false, error: 'Email service is not configured yet.' });
   }
 
+  // optional structured extras (e.g. Exchange waitlist fields) — label → value
+  const extra = (body.extra && typeof body.extra === 'object' && !Array.isArray(body.extra)) ? body.extra : {};
+  const extraPairs = Object.entries(extra).slice(0, 12)
+    .map(([k, v]) => [clean(k, 60), clean(v, 200)]).filter(([k, v]) => k && v);
+
   const rows = [
     ['Source', lead.source], ['Name', lead.name], ['Company / facility', lead.company],
     ['Location', lead.location], ['Email', lead.email], ['Material', lead.material],
-    ['Throughput', lead.throughput], ['IP', ip],
+    ['Throughput', lead.throughput], ...extraPairs, ['IP', ip],
   ].filter(([, v]) => v).map(([k, v]) => `<tr><td style="padding:4px 10px"><b>${esc(k)}</b></td><td style="padding:4px 10px">${esc(v)}</td></tr>`).join('');
   const html = `<h2 style="font-family:system-ui">New VERILOT lead</h2><table style="font-family:ui-monospace,monospace;border-collapse:collapse">${rows}</table>`;
 
