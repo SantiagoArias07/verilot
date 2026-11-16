@@ -7,10 +7,19 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2308090C'/%3E%3Crect x='8' y='8' width='16' height='16' fill='none' stroke='%2300E5FF' stroke-width='2'/%3E%3Crect x='13' y='13' width='6' height='6' fill='%2300E5FF'/%3E%3C/svg%3E">
 <meta name="description" content="VERILOT certifies recycled polymer purity at the source using continuous NIR spectroscopy and Edge AI — the trust layer for circular manufacturing.">
 <title>VERILOT — The trust layer for circular manufacturing</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="VERILOT — The trust layer for circular manufacturing">
+<meta property="og:description" content="We certify recycled polymer purity at the source using continuous NIR spectroscopy and Edge AI.">
+<meta property="og:image" content="/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VERILOT — The trust layer for circular manufacturing">
+<meta name="twitter:description" content="Optical quality certification for recycled polymer flake — piloting in Monterrey, Mexico.">
+<meta name="twitter:image" content="/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="modulepreload" href="/vendor/three.module.js">
 <link rel="stylesheet" href="/styles.css">
 <script type="importmap">
 { "imports": { "three": "/vendor/three.module.js" } }
@@ -49,7 +58,8 @@
   <div id="heroPoster" aria-hidden="true"></div>
   <canvas id="heroGL" style="position:absolute; inset:0; width:100%; height:100%; display:block; opacity:0; transition:opacity .9s ease;"></canvas>
   <canvas id="heroOverlay" style="position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; opacity:0; transition:opacity .9s ease .1s;"></canvas>
-  <div style="position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg, rgba(8,9,12,0.96) 0%, rgba(8,9,12,0.78) 34%, rgba(8,9,12,0) 62%), linear-gradient(0deg, rgba(8,9,12,0.9) 0%, rgba(8,9,12,0) 26%), linear-gradient(180deg, rgba(8,9,12,0.7) 0%, rgba(8,9,12,0) 22%);"></div>
+  <div style="position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg, rgba(8,9,12,0.97) 0%, rgba(8,9,12,0.9) 42%, rgba(8,9,12,0.35) 58%, rgba(8,9,12,0) 72%), linear-gradient(0deg, rgba(8,9,12,0.9) 0%, rgba(8,9,12,0) 26%), linear-gradient(180deg, rgba(8,9,12,0.7) 0%, rgba(8,9,12,0) 22%);"></div>
+  <div aria-hidden="true" style="position:absolute; top:16px; right:clamp(16px,4vw,48px); z-index:4; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#6B7280; border:1px solid #1E222B; background:rgba(17,19,24,0.55); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); padding:5px 10px; border-radius:999px;">ILLUSTRATIVE TELEMETRY</div>
   <div class="hero-stage" style="position:relative; height:100%; max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,64px) 120px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; gap:28px;">
     <div class="hero-rise" style="align-self:flex-start; display:flex; align-items:center; gap:10px; padding:7px 12px; border:1px solid #1E222B; border-radius:999px; background:rgba(17,19,24,0.7); backdrop-filter:blur(8px); font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#C5CBD3;">
       <span style="width:6px; height:6px; border-radius:50%; background:var(--acc,#00E5FF); box-shadow:0 0 10px var(--acc,#00E5FF);"></span>OPTICAL QUALITY INFRASTRUCTURE · REAL-TIME BATCH CERTIFICATION
@@ -72,12 +82,12 @@
 
 <div style="border-bottom:1px solid #1E222B;">
   <div style="max-width:1240px; margin:0 auto; padding:22px clamp(20px,5vw,64px); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 32px; font-family:'Geist Mono',monospace; font-size:11.5px; letter-spacing:0.1em; color:#8B93A1; text-transform:uppercase;">
-    <span style="color:#C5CBD3;">Deployed across North America, Europe &amp; Asia</span>
-    <div style="display:flex; flex-wrap:wrap; gap:10px 28px;"><span>Monterrey</span><span>Ohio</span><span>Stuttgart</span><span>Shenzhen</span></div>
+    <span style="color:#C5CBD3;">Launch market · Monterrey, Mexico · Pilot program open</span>
+    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px 20px;"><span style="color:#5B636F;">Target markets</span><span style="color:#8B93A1;">Ohio</span><span style="color:#8B93A1;">Stuttgart</span><span style="color:#8B93A1;">Shenzhen</span></div>
   </div>
 </div>
 
-<section id="problem" data-screen-label="02 Problem" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px);">
+<section id="problem" data-screen-label="02 Problem" data-reveal style="padding:clamp(88px,11vw,150px) clamp(20px,5vw,64px) clamp(48px,6vw,80px);">
   <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:clamp(48px,6vw,80px);">
     <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); gap:40px 64px; align-items:end;">
       <div style="display:flex; flex-direction:column; gap:18px;">
@@ -112,7 +122,7 @@
   </div>
 </section>
 
-<section id="how" data-screen-label="03 How it works" data-reveal style="padding:clamp(72px,9vw,120px) clamp(20px,5vw,64px); background:#0B0D11; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B;">
+<section id="how" data-screen-label="03 How it works" data-reveal style="padding:clamp(48px,6vw,80px) clamp(20px,5vw,64px) clamp(72px,9vw,120px); background:#0B0D11; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B;">
   <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:48px;">
     <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:end;">
       <div style="display:flex; flex-direction:column; gap:18px; max-width:640px;">
@@ -206,29 +216,29 @@
               <span style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#8B93A1;">06 · SCALE</span>
             </div>
           </div>
-          <div class="hw-layer" data-comp="5" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(16px + var(--p,0) * 46px));">
+          <div class="hw-layer" data-comp="5" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(48px + var(--p,0) * 138px));">
             <div style="position:absolute; inset:0; box-sizing:border-box; border:14px solid #1A1E26; box-shadow:inset 0 0 0 1px var(--acc,#00E5FF), inset 0 0 36px rgba(0,229,255,0.35), 0 0 30px rgba(0,229,255,0.15);"></div>
-            <span style="position:absolute; left:22px; top:22px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">05 · LIGHT</span>
+            <span style="position:absolute; left:22px; top:22px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#EEF1F5; white-space:nowrap; background:rgba(8,9,12,0.78); padding:2px 6px; border-radius:3px; transform:translateZ(2px);">05 · LIGHT</span>
           </div>
-          <div class="hw-layer" data-comp="2" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(32px + var(--p,0) * 92px));">
+          <div class="hw-layer" data-comp="2" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(16px + var(--p,0) * 46px));">
             <div style="position:absolute; inset:0; transform:translateZ(-7px); background:#050608;"></div>
             <div style="position:absolute; inset:0; background:#14171D; border:1px solid #2A303B;">
               <div style="position:absolute; left:18%; right:18%; top:40%; height:20%; border:1px solid rgba(255,255,255,0.2); background:repeating-linear-gradient(90deg, rgba(245,158,11,0.75) 0 2px, transparent 2px 7px);"></div>
-              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">02 · NIR</span>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#EEF1F5; white-space:nowrap; background:rgba(8,9,12,0.78); padding:2px 6px; border-radius:3px; transform:translateZ(2px);">02 · NIR</span>
             </div>
           </div>
-          <div class="hw-layer" data-comp="1" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(48px + var(--p,0) * 138px));">
+          <div class="hw-layer" data-comp="1" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(32px + var(--p,0) * 92px));">
             <div style="position:absolute; inset:0; transform:translateZ(-7px); background:#050608;"></div>
             <div style="position:absolute; inset:0; background:#161A21; border:1px solid #2A303B;">
               <div style="position:absolute; left:28%; top:28%; width:44%; height:44%; box-sizing:border-box; border-radius:50%; border:8px solid #252A33; background:radial-gradient(circle at 38% 36%, #3E5560 0%, #12161C 38%, #040506 70%); box-shadow:0 0 0 1px rgba(255,255,255,0.12);"></div>
-              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">01 · VISION</span>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#EEF1F5; white-space:nowrap; background:rgba(8,9,12,0.78); padding:2px 6px; border-radius:3px; transform:translateZ(2px);">01 · VISION</span>
             </div>
           </div>
           <div class="hw-layer" data-comp="3" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(64px + var(--p,0) * 184px));">
             <div style="position:absolute; inset:0; transform:translateZ(-6px); background:#050608;"></div>
             <div style="position:absolute; inset:0; background-color:#0C1216; background-image:repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 14px), repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 14px); border:1px solid #2A303B;">
               <div style="position:absolute; left:33%; top:33%; width:34%; height:34%; background:#1C2129; border:1px solid var(--acc,#00E5FF); box-shadow:0 0 24px rgba(0,229,255,0.25);"></div>
-              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">03 · EDGE AI</span>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#EEF1F5; white-space:nowrap; background:rgba(8,9,12,0.78); padding:2px 6px; border-radius:3px; transform:translateZ(2px);">03 · EDGE AI</span>
             </div>
           </div>
           <div class="hw-layer" data-comp="4" style="position:absolute; inset:0; transform-style:preserve-3d; transform:translateZ(calc(80px + var(--p,0) * 230px)); opacity:calc(1 - var(--p,0) * 0.2);">
@@ -236,7 +246,7 @@
             <div style="position:absolute; inset:0; background:linear-gradient(135deg, #3C424D, #1A1E25); border:1px solid rgba(255,255,255,0.22);">
               <div style="position:absolute; right:12%; top:14%; width:22%; height:46%; background:repeating-linear-gradient(0deg, #12151A 0 3px, transparent 3px 8px);"></div>
               <span style="position:absolute; left:14%; bottom:14%; font-weight:600; font-size:15px; letter-spacing:0.28em; color:rgba(255,255,255,0.35);">VERILOT</span>
-              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#C5CBD3;">04 · IP65</span>
+              <span style="position:absolute; left:12px; top:12px; font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#EEF1F5; white-space:nowrap; background:rgba(8,9,12,0.78); padding:2px 6px; border-radius:3px; transform:translateZ(2px);">04 · IP65</span>
             </div>
           </div>
         </div>
@@ -315,12 +325,15 @@
           <span style="color:#EEF1F5;">BATCH 0402 · Clear PET</span>
           <span style="display:flex; align-items:center; gap:8px; color:#00E5FF;"><span id="ppDot" style="width:7px; height:7px; border-radius:50%; background:#00E5FF; box-shadow:0 0 10px #00E5FF;"></span><span id="ppTag">GRADE A</span></span>
         </div>
-        <div style="position:relative; height:360px;">
-          <canvas id="simR" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas>
-          <div style="position:absolute; right:14px; bottom:14px; display:flex; gap:8px;">
-            <button type="button" id="simReset" class="btn-reset" style="cursor:pointer; background:rgba(17,19,24,0.85); color:#C5CBD3; border:1px solid #2A303B; border-radius:999px; padding:10px 14px; font-size:13px;">Reset</button>
-            <button type="button" id="simInject" class="btn-inject" style="cursor:pointer; background:#F59E0B; color:#08090C; border:0; border-radius:999px; padding:10px 16px; font-size:13px; font-weight:600;">Inject Contaminant</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 20px; border-bottom:1px solid #1E222B;">
+          <span style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#5B636F;">ILLUSTRATIVE · INTERACTIVE</span>
+          <div style="display:flex; gap:8px;">
+            <button type="button" id="simReset" class="btn-reset" style="cursor:pointer; background:rgba(17,19,24,0.85); color:#C5CBD3; border:1px solid #2A303B; border-radius:999px; padding:9px 14px; font-size:13px;">Reset</button>
+            <button type="button" id="simInject" class="btn-inject" style="cursor:pointer; background:#F59E0B; color:#08090C; border:0; border-radius:999px; padding:9px 16px; font-size:13px; font-weight:600;">Inject Contaminant</button>
           </div>
+        </div>
+        <div style="position:relative; height:318px;">
+          <canvas id="simR" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas>
         </div>
         <div style="border-top:1px solid #1E222B; padding:20px; display:grid; grid-template-columns:minmax(0,1fr) 112px; gap:20px; min-height:250px; box-sizing:border-box;">
           <div style="display:flex; flex-direction:column; gap:12px;">
@@ -342,8 +355,8 @@
               <div style="display:flex; justify-content:space-between; gap:8px;"><span style="color:#8B93A1;">Hash</span><span id="ppHash" style="font-family:'Geist Mono',monospace; font-size:12px;">7f3a…c91e</span></div>
             </div>
             <div style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px;">
-              <div style="height:38px; border-radius:6px; background:repeating-linear-gradient(135deg,#161A21 0 5px,#111318 5px 10px); display:grid; place-items:center; font-family:'Geist Mono',monospace; font-size:9px; color:#8B93A1;">evidence</div>
-              <div style="height:38px; border-radius:6px; background:repeating-linear-gradient(135deg,#161A21 0 5px,#111318 5px 10px); display:grid; place-items:center; font-family:'Geist Mono',monospace; font-size:9px; color:#8B93A1;">evidence</div>
+              <div style="position:relative; height:38px; border-radius:6px; overflow:hidden; background:#0E1116; border:1px solid #1A1E26;"><canvas id="ev1" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas></div>
+              <div style="position:relative; height:38px; border-radius:6px; overflow:hidden; background:#0E1116; border:1px solid #1A1E26;"><canvas id="ev2" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas></div>
               <div style="position:relative; height:38px; border-radius:6px; overflow:hidden; background:#0E1116; border:1px solid #1A1E26;"><canvas id="nirWave" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas><span style="position:absolute; left:6px; top:4px; font-family:'Geist Mono',monospace; font-size:8px; letter-spacing:0.08em; color:#6B7280;">NIR</span></div>
             </div>
           </div>
@@ -474,7 +487,7 @@
           <span style="font-size:clamp(48px,6vw,84px); font-weight:400; letter-spacing:-0.045em; line-height:1;"><span id="recM">$15,600</span><span style="font-size:0.35em; color:#8B93A1; letter-spacing:0;"> /mo</span></span>
           <span style="font-size:16px; color:#9BA3AF;"><span id="recY">$187,200</span> per year · <span id="recT">$78</span> per ton</span>
         </div>
-        <p style="margin:0; font-size:13.5px; line-height:1.55; color:#8B93A1; border-top:1px solid #1E222B; padding-top:18px; text-wrap:pretty;">Estimate based on your inputs. Subscription pricing is set during onboarding so recovered margin is a multiple of what you pay.</p>
+        <p style="margin:0; font-size:13.5px; line-height:1.55; color:#8B93A1; border-top:1px solid #1E222B; padding-top:18px; text-wrap:pretty;">Illustrative estimate based on your inputs—not a quote. Subscription pricing is set during onboarding so recovered margin is a multiple of what you pay.</p>
       </div>
     </div>
 
@@ -553,10 +566,10 @@
   <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:40px;">
     <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:end;">
       <div style="display:flex; flex-direction:column; gap:18px; max-width:720px;">
-        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Global industrial nodes</div>
-        <h2 style="margin:0; font-weight:500; font-size:clamp(32px,4vw,54px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">One hardware platform. Polymers today, textiles and metals next.</h2>
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Launch market &amp; roadmap</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(32px,4vw,54px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Built in Monterrey. Designed for every recycling hub.</h2>
       </div>
-      <p style="margin:0; max-width:380px; font-size:16px; line-height:1.55; color:#9BA3AF;">Hubs in Monterrey, Ohio, Stuttgart and Shenzhen anchor a growing network of certified facilities.</p>
+      <p style="margin:0; max-width:380px; font-size:16px; line-height:1.55; color:#9BA3AF;">We’re piloting in Monterrey, Mexico—and building VERILOT to roll out across recycling hubs worldwide. Polymers today; textiles and metals next.</p>
     </div>
     <div style="border:1px solid #1E222B; border-radius:20px; overflow:hidden; height:clamp(520px,52vw,680px);">
       <iframe id="mapFrame" src="/map.html" title="VERILOT global network map" loading="lazy" style="width:100%; height:100%; border:0; display:block; background:#08090C;"></iframe>
@@ -586,10 +599,10 @@
       <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Industrial deployment</div>
       <h2 style="margin:0; font-weight:500; font-size:clamp(38px,5vw,72px); line-height:0.98; letter-spacing:-0.045em; text-wrap:balance;">Install a module. Certify your first batch.</h2>
       <p style="margin:0; font-size:17px; line-height:1.6; color:#9BA3AF; max-width:500px;">For grinding and washing facilities shipping PET or PP flake in bulk bags. Zero upfront cost; typical installation completes in a single shift.</p>
-      <a href="#deploy" class="dossier-link" style="align-self:flex-start; display:flex; align-items:center; gap:14px; text-decoration:none; padding:16px 20px; border:1px solid #2A303B; background:#111318; border-radius:14px; color:#EEF1F5;">
+      <button type="button" class="dossier-link" data-open-modal data-source="dossier" data-tier="Technical dossier" style="align-self:flex-start; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:14px; padding:16px 20px; border:1px solid #2A303B; background:#111318; border-radius:14px; color:#EEF1F5;">
         <span style="width:36px; height:44px; border:1px solid #3A414D; border-radius:3px; display:grid; place-items:end center; padding-bottom:6px; box-sizing:border-box; font-family:'Geist Mono',monospace; font-size:8px; color:#9BA3AF;">PDF</span>
-        <span style="display:flex; flex-direction:column; gap:2px;"><span style="font-weight:500;">Download technical dossier</span><span style="font-size:13px; color:#8B93A1;">Hardware specs, certificate schema, commercial model</span></span>
-      </a>
+        <span style="display:flex; flex-direction:column; gap:2px;"><span style="font-weight:500;">Request technical dossier</span><span style="font-size:13px; color:#8B93A1;">Hardware specs, certificate schema, commercial model</span></span>
+      </button>
     </div>
     <div id="deployFormWrap">
       <form id="deployForm" novalidate style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; padding:clamp(22px,3vw,32px); border:1px solid #1E222B; border-radius:20px; background:#111318;">
@@ -598,6 +611,8 @@
         <label style="grid-column:1 / -1; display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Work email<input required type="email" name="email" class="field-input" placeholder="jane@company.com" style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"></label>
         <label style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Primary material<select name="material" class="field-input" style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"><option>Clear PET flake</option><option>Light PP flake</option><option>HDPE</option><option>Other</option></select></label>
         <label style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:#9BA3AF;">Monthly throughput<select name="throughput" class="field-input" style="background:#08090C; border:1px solid #1E222B; border-radius:10px; padding:13px 14px; color:#EEF1F5; font-size:15px; outline:none;"><option>Under 100 t</option><option>100–500 t</option><option>500–1,500 t</option><option>Over 1,500 t</option></select></label>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;">
+        <div id="deployErr" role="alert" style="display:none; grid-column:1 / -1; color:#EF4444; font-size:13px; line-height:1.4;"></div>
         <button type="submit" class="btn-primary" style="grid-column:1 / -1; margin-top:6px; cursor:pointer; background:var(--acc,#00E5FF); color:#08090C; border:0; border-radius:999px; padding:16px 22px; font-size:15px; font-weight:600;">Schedule an industrial deployment</button>
       </form>
       <div id="deploySent" style="display:none; padding:40px 32px; border:1px solid var(--acc,#00E5FF); background:#111318; border-radius:20px; flex-direction:column; gap:14px;">
@@ -613,8 +628,8 @@
   <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:48px;">
     <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr)); gap:32px; font-size:14px;">
       <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">PLATFORM</span><a href="#hardware" style="text-decoration:none; color:#C5CBD3;">VERILOT M1</a><a href="#software" style="text-decoration:none; color:#C5CBD3;">Cloud platform</a><a href="#certificate" style="text-decoration:none; color:#C5CBD3;">Batch certificates</a></div>
-      <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">COMPANY</span><a href="#network" style="text-decoration:none; color:#C5CBD3;">Network</a><a href="#pricing" style="text-decoration:none; color:#C5CBD3;">Pricing</a><a href="#deploy" style="text-decoration:none; color:#C5CBD3;">Contact sales</a></div>
-      <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">HUBS</span><span style="color:#C5CBD3;">Monterrey · Ohio</span><span style="color:#C5CBD3;">Stuttgart · Shenzhen</span></div>
+      <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">COMPANY</span><a href="#network" style="text-decoration:none; color:#C5CBD3;">Network</a><a href="#pricing" style="text-decoration:none; color:#C5CBD3;">Pricing</a><a href="#deploy" style="text-decoration:none; color:#C5CBD3;">Contact sales</a><a href="/privacy.html" style="text-decoration:none; color:#C5CBD3;">Privacy</a><!-- TODO: replace with the real company address --><a href="mailto:hello@verilot.example" style="text-decoration:none; color:#C5CBD3;">hello@verilot.example</a></div>
+      <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#8B93A1;">MARKETS</span><span style="color:#C5CBD3;">Launch · Monterrey, MX</span><span style="color:#8B93A1;">Target · Ohio · Stuttgart · Shenzhen</span></div>
     </div>
     <div style="font-weight:600; font-size:clamp(64px,15vw,220px); line-height:0.8; letter-spacing:0.04em; color:#12151B;">VERILOT</div>
     <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px 32px; font-size:13px; color:#8B93A1;">

@@ -188,7 +188,7 @@ export async function mountHero(gl, ov, o = {}) {
   // flakes
   const fs = new T.Shape(); for (let i = 0, N = 7; i < N; i++) { const a = i / N * Math.PI * 2 + (Math.random() - .5) * .5, r = .6 + Math.random() * .4; i ? fs.lineTo(Math.cos(a) * r, Math.sin(a) * r) : fs.moveTo(Math.cos(a) * r, Math.sin(a) * r); }
   const fg = new T.ShapeGeometry(fs); fg.rotateX(-Math.PI / 2);
-  const NF = 1800;
+  const NF = ((gl.clientWidth || window.innerWidth || 1200) < 760) ? 700 : 1800;
   const petMat = new T.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: .4, roughness: .08, metalness: 0, clearcoat: 1, clearcoatRoughness: .05, ior: 1.57, envMapIntensity: 1.25, side: T.DoubleSide, depthWrite: false });
   const pet = new T.InstancedMesh(fg, petMat, NF); pet.instanceMatrix.setUsage(T.DynamicDrawUsage); pet.receiveShadow = true; pet.frustumCulled = false; scene.add(pet);
   const tints = [[.62, .74, .8], [.56, .7, .82], [.62, .76, .72], [.7, .74, .78]];
@@ -220,11 +220,11 @@ export async function mountHero(gl, ov, o = {}) {
   let W = 1, H = 1, odpr = 1;
   const resize = () => {
     W = gl.clientWidth || 1; H = gl.clientHeight || 1;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75)); renderer.setSize(W, H, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, W < 760 ? 1.2 : 1.6)); renderer.setSize(W, H, false);
     odpr = Math.min(2, window.devicePixelRatio || 1); ov.width = Math.round(W * odpr); ov.height = Math.round(H * odpr);
     const wide = W > 900, asp = W / H;
     const dist = wide ? 6.2 * Math.max(1, Math.min(1.3, 1180 / W)) : Math.min(13, 6.2 * Math.max(1.15, 1.35 / asp));
-    const tgt = new T.Vector3(.25, wide ? .42 : .1, .05), dir = new T.Vector3(-.62, .36, .7).normalize();
+    const tgt = new T.Vector3(wide ? -0.05 : .25, wide ? .42 : .1, .05), dir = new T.Vector3(-.62, .36, .7).normalize();
     camera.position.copy(tgt).addScaledVector(dir, dist); camera.lookAt(tgt);
     scene.fog.near = dist + .8; scene.fog.far = dist + 7.5;
     camera.aspect = asp; camera.updateProjectionMatrix();
@@ -243,14 +243,16 @@ export async function mountHero(gl, ov, o = {}) {
     const MARGIN = 14, lk = Math.min(1, dt * 12); // lerp factor toward locked target
     let shown = 0;
     for (const c of C) {
-      const d = c.x - BX; if (d < -.02 || d > 2.4 || shown >= 3) continue; shown++;
+      const d = c.x - BX; if (d < -.02 || d > 2.4 || shown >= 2) continue; shown++;
       const a = Math.min(1, (d + .02) / .12) * Math.min(1, (2.4 - d) / .4);
       const [sx, sy] = toScreen(P.set(c.x, .01, c.z));
       const [qx] = toScreen(Q.set(c.x, .01, c.z + .07));
       const bTarget = Math.max(18, Math.min(44, Math.abs(qx - sx) * 2.4 + 8));
       // lerp the drawn box toward the projected target; "lock on" scale-in on entry
-      if (!c.lock) { c.ox = sx; c.oy = sy; c.ob = bTarget * 1.9; c.lock = 1; }
-      c.ox += (sx - c.ox) * lk; c.oy += (sy - c.oy) * lk; c.ob += (bTarget - c.ob) * lk;
+      if (!c.lock) { c.ob = bTarget * 1.9; c.lock = 1; }
+      // snap the box onto the flake every frame (stays attached); only the size
+      // eases in for the "lock-on" feel so the reticle never trails its object.
+      c.ox = sx; c.oy = sy; c.ob += (bTarget - c.ob) * lk;
       const bx = c.ox, by = c.oy, b = c.ob, x0 = bx - b / 2, y0 = by - b / 2, k = b * .3;
       octx.globalAlpha = a; octx.strokeStyle = c.t.col; octx.lineWidth = 1.5; octx.beginPath();
       octx.moveTo(x0, y0 + k); octx.lineTo(x0, y0); octx.lineTo(x0 + k, y0); octx.moveTo(x0 + b - k, y0); octx.lineTo(x0 + b, y0); octx.lineTo(x0 + b, y0 + k);
@@ -278,7 +280,8 @@ export async function mountHero(gl, ov, o = {}) {
   };
 
   // loop
-  let raf = 0, last = 0, alive = true, kg = 784.2, batch = 404, jit = 0, firstDone = false;
+  let raf = 0, last = 0, alive = true, kg = 784.2, batch = 404, jit = 0, firstDone = false, lastRender = 0;
+  const FRAME_MS = 26; // cap the hero to ~38fps to limit main-thread time
   const accHi = new T.Color();
   const renderOnce = (t) => {
     const ts = t / 1000; sheetMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = ts; });
@@ -287,6 +290,7 @@ export async function mountHero(gl, ov, o = {}) {
   const frame = (t) => {
     if (!alive) return; raf = requestAnimationFrame(frame);
     const r = ov.getBoundingClientRect(); if (r.bottom < 0 || r.top > window.innerHeight) { last = 0; return; }
+    if (t - lastRender < FRAME_MS) return; lastRender = t;
     const dt = Math.min(.05, (t - (last || t)) / 1000); last = t;
     const v = 1.35 * speed, step = v * dt;
     beltMap.offset.x -= step / 2; beltBump.offset.x = beltMap.offset.x;
@@ -320,7 +324,7 @@ export async function mountHero(gl, ov, o = {}) {
   renderOnce(performance.now());
   if (o.onReady) o.onReady();
   firstDone = true;
-  raf = requestAnimationFrame(frame);
+  if (!o.static) raf = requestAnimationFrame(frame); // reduced-motion: one static frame
 
   return {
     setAccent(h) {

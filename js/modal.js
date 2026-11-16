@@ -1,6 +1,8 @@
 // Deployment Assessment — a dark-glass, multi-step modal opened by every primary
 // CTA. Collects Facility Location, Monthly Tonnage, Polymer Stream and Work Email
 // with per-step validation, then shows a professional confirmation receipt.
+import { postLead } from './lead.js';
+
 const STEPS = [
   { key: 'location', q: 'Where is the facility?', sub: 'City and country of the plant that will host the module.', type: 'text', placeholder: 'Monterrey, Mexico' },
   { key: 'tonnage', q: 'Monthly tonnage', sub: 'Approximate certified flake output per month.', type: 'choice', options: ['Under 100 t', '100–500 t', '500–1,500 t', 'Over 1,500 t'] },
@@ -12,7 +14,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export function initModal() {
   const root = document.getElementById('modalRoot');
   if (!root) return;
-  let idx = 0, tier = '';
+  let idx = 0, tier = '', source = '';
   const data = {};
   let lastFocus = null;
 
@@ -61,6 +63,7 @@ export function initModal() {
         </div>
         <div class="modal-progress">${progress}</div>
         <div class="modal-body">${steps}</div>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;">
         <div class="modal-actions">
           <button type="button" class="modal-btn modal-btn-ghost" data-back${idx === 0 ? ' style="visibility:hidden"' : ''}>Back</button>
           <button type="button" class="modal-btn" data-next>${idx === STEPS.length - 1 ? 'Submit request' : 'Continue'}</button>
@@ -121,12 +124,30 @@ export function initModal() {
     else submit();
   }
 
-  function submit() {
+  async function submit() {
+    const next = root.querySelector('[data-next]');
+    const back = root.querySelector('[data-back]');
+    const err = root.querySelector('.modal-step.active .modal-err');
+    next.disabled = true; if (back) back.disabled = true;
+    next.textContent = 'Sending…';
+    if (err) err.textContent = '';
+    const hp = root.querySelector('input[name="website"]');
+    const res = await postLead({
+      source: source || 'modal',
+      location: data.location, throughput: data.tonnage, material: data.polymer, email: data.email,
+      website: hp ? hp.value : '',
+    });
+    if (!res.ok) {
+      next.disabled = false; if (back) back.disabled = false;
+      next.textContent = 'Submit request';
+      if (err) err.textContent = res.error || 'Something went wrong. Please try again.';
+      return;
+    }
     const ref = refId();
     root.querySelector('.modal-body').innerHTML = `
       <div class="modal-receipt">
         <div class="check">✓</div>
-        <div style="font-size:22px; font-weight:500; letter-spacing:-0.02em;">Assessment received.</div>
+        <div style="font-size:22px; font-weight:500; letter-spacing:-0.02em;">Request received.</div>
         <div style="font-size:14.5px; color:#9BA3AF; line-height:1.55; max-width:360px;">A deployment engineer will review your facility and reach out within 48 hours with a tailored installation plan.</div>
         <div class="modal-receipt-meta">
           <div>REF · <b>${ref}</b></div>
@@ -134,7 +155,7 @@ export function initModal() {
           <div>Tonnage · <b>${esc(data.tonnage)}</b></div>
           <div>Polymer · <b>${esc(data.polymer)}</b></div>
           <div>Contact · <b>${esc(data.email)}</b></div>
-          <div>Status · <b style="color:var(--acc)">Queued for review</b></div>
+          <div>Status · <b style="color:var(--acc)">Received</b></div>
         </div>
       </div>`;
     root.querySelector('.modal-progress').querySelectorAll('span').forEach((s) => s.classList.add('done'));
@@ -148,6 +169,7 @@ export function initModal() {
   function open(e) {
     const trigger = e.currentTarget;
     tier = (trigger && trigger.dataset && trigger.dataset.tier) || '';
+    source = (trigger && trigger.dataset && trigger.dataset.source) || 'modal';
     idx = 0;
     for (const k in data) delete data[k];
     lastFocus = document.activeElement;
@@ -162,6 +184,7 @@ export function initModal() {
     root.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     document.getElementById('app')?.removeAttribute('inert');
+    if (location.hash === '#deploy') history.replaceState(null, '', location.pathname + location.search);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 

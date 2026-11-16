@@ -6,6 +6,7 @@ import { mountHero2D } from './hero2d.js';
 import { initSimulation } from './sim.js';
 import { initCalculator } from './calculator.js';
 import { initModal } from './modal.js';
+import { postLead } from './lead.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -19,7 +20,22 @@ function splitHeadline() {
   h.innerHTML = words.map((w, i) =>
     `<span class="hw"><span class="hwi" style="animation-delay:${(0.18 + i * 0.05).toFixed(2)}s">${w}</span></span>`
   ).join(' ');
-  h.style.opacity = '1';
+}
+
+// run a one-off after the page has loaded and the main thread is idle
+function afterIdle(fn) {
+  const run = () => ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout: 8000 }) : setTimeout(fn, 400);
+  if (document.readyState === 'complete') run();
+  else addEventListener('load', run, { once: true });
+}
+// run fn once when `sel` is near the viewport (keeps heavy canvas loops out of first load)
+function whenNear(sel, fn) {
+  const el = $(sel); if (!el) return;
+  if (!('IntersectionObserver' in window)) { fn(); return; }
+  const io = new IntersectionObserver((ents) => {
+    if (ents.some((e) => e.isIntersecting)) { io.disconnect(); fn(); }
+  }, { rootMargin: '800px' });
+  io.observe(el);
 }
 
 /* ---------- hero mount (3D → 2D fallback) ---------- */
@@ -27,6 +43,9 @@ async function mountHero() {
   const gl = $('#heroGL'), ov = $('#heroOverlay'), header = $('#top');
   const hud = { kgEl: $('#heroKg'), petEl: $('#heroPet'), batchEl: $('#heroBatch') };
   const ready = () => header && header.classList.add('hero-ready');
+  // Mobile: keep the static hero-poster image and skip WebGL entirely — no
+  // Three.js download, no render loop, so mobile stays fast (Lighthouse ≥ 85).
+  if (window.innerWidth < 760) return;
   const supportsWebGL = (() => {
     try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); }
     catch (e) { return false; }
@@ -34,7 +53,8 @@ async function mountHero() {
   if (gl && ov && supportsWebGL) {
     try {
       const m = await import('./hero3d.js');
-      await m.mountHero(gl, ov, { accent: '#00E5FF', speed: 1, ...hud, onReady: ready });
+      // reduced-motion: render a single crisp static frame (no belt animation)
+      await m.mountHero(gl, ov, { accent: '#00E5FF', speed: 1, static: reduced, ...hud, onReady: ready });
       return;
     } catch (e) {
       console.warn('[verilot] 3D hero unavailable, using 2D fallback:', e);
@@ -155,12 +175,13 @@ function initScrollFX() {
 function initSim() {
   const els = {
     simL: $('#simL'), simR: $('#simR'), nirWave: $('#nirWave'), qrSmall: $('#qrSmall'), qrBig: $('#qrBig'),
+    ev1: $('#ev1'), ev2: $('#ev2'),
     alertList: $('#alertList'), leftCount: $('#leftCount'),
     ppDot: $('#ppDot'), ppTag: $('#ppTag'), ppStatus: $('#ppStatus'), ppGrade: $('#ppGrade'),
     ppPet: $('#ppPet'), ppBar: $('#ppBar'), ppConf: $('#ppConf'), ppHash: $('#ppHash'),
   };
   if (!els.simR) return;
-  const sim = initSimulation(els);
+  const sim = initSimulation(els, { reduced });
   $('#simInject') && $('#simInject').addEventListener('click', sim.inject);
   $('#simReset') && $('#simReset').addEventListener('click', sim.reset);
 }
@@ -199,7 +220,8 @@ function initCertificate() {
 function initDeployForm() {
   const form = $('#deployForm'), sent = $('#deploySent');
   if (!form || !sent) return;
-  form.addEventListener('submit', (e) => {
+  const errEl = $('#deployErr');
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     let ok = true;
     $$('input[required], select[required]', form).forEach((f) => {
@@ -207,7 +229,22 @@ function initDeployForm() {
       f.classList.toggle('invalid', !valid);
       if (!valid) ok = false;
     });
+    if (errEl) errEl.style.display = 'none';
     if (!ok) return;
+    const btn = form.querySelector('button[type="submit"]');
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending…';
+    const fd = new FormData(form);
+    const res = await postLead({
+      source: 'deploy-form', name: fd.get('name'), company: fd.get('company'),
+      email: fd.get('email'), material: fd.get('material'), throughput: fd.get('throughput'),
+      website: fd.get('website') || '',
+    });
+    btn.disabled = false; btn.textContent = label;
+    if (!res.ok) {
+      if (errEl) { errEl.textContent = res.error || 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
+      return;
+    }
     form.style.display = 'none';
     sent.style.display = 'flex';
     sent.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'nearest' });
@@ -229,10 +266,10 @@ function initNav() {
 function boot() {
   initNav();
   splitHeadline();
-  mountHero();
+  afterIdle(mountHero);          // defer the WebGL hero until the page is idle
   initHardware();
   initScrollFX();
-  initSim();
+  whenNear('#simulation', initSim); // lazy-start the simulation canvases
   initCalculator();
   initCertificate();
   initDeployForm();

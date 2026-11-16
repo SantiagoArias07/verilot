@@ -15,6 +15,11 @@ html,body{margin:0;height:100%;background:#08090C;color:#EEF1F5;font-family:Geis
 canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hud{position:absolute;top:16px;left:20px;font:500 11px/1.6 "Geist Mono",monospace;letter-spacing:.12em;color:#9BA3AF;text-transform:uppercase}
 .hud b{color:var(--acc);font-weight:500}
+.legend{position:absolute;top:16px;right:20px;display:flex;flex-direction:column;gap:6px;font:500 10px/1.4 "Geist Mono",monospace;letter-spacing:.1em;color:#8B93A1;text-transform:uppercase;text-align:right}
+.legend span{display:inline-flex;align-items:center;gap:7px;justify-content:flex-end}
+.legend i{width:8px;height:8px;border-radius:50%}
+.legend .launch i{background:var(--acc);box-shadow:0 0 8px var(--acc)}
+.legend .target i{background:transparent;border:1px dashed #5B636F}
 .tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #1E222B}
 .tab{position:relative;text-align:left;background:none;border:0;color:inherit;font:inherit;padding:20px 22px 22px;cursor:pointer;border-right:1px solid #1E222B;display:flex;flex-direction:column;gap:8px}
 .tab:last-child{border-right:0}
@@ -27,33 +32,41 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .tab.on .n{color:var(--acc)}
 .tab.on .chips span{border-color:var(--acc);color:#EEF1F5}
 .tab:not(.on) .t{color:#9BA3AF}
-@media (max-width:640px){.tabs{grid-template-columns:1fr}.tab{border-right:0;border-bottom:1px solid #1E222B;padding:12px 18px}.tab .d,.tab .chips{display:none}}
+@media (max-width:640px){.tabs{grid-template-columns:1fr}.tab{border-right:0;border-bottom:1px solid #1E222B;padding:12px 18px}.tab .d,.tab .chips{display:none}.legend{display:none}}
 </style>
 </head>
 <body>
 <div id="wrap">
-  <div id="stage"><canvas id="c"></canvas><div class="hud">Module network · <b id="hudp">Stage 01</b><br><span id="hudn">4 active hubs</span></div></div>
+  <div id="stage">
+    <canvas id="c"></canvas>
+    <div class="hud">Launch node · <b>Monterrey, MX</b><br><span id="hudn">01 · Piloting</span></div>
+    <div class="legend"><span class="launch"><i></i>Launch market</span><span class="target"><i></i>Target market</span></div>
+  </div>
   <div class="tabs" id="tabs"></div>
 </div>
 <script>
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PH=[
- {n:'01 · Live',t:'Clear polymers',d:'PET and PP flake certified at the source across four industrial hubs on three continents.',c:['PET','PP']},
- {n:'02 · Expanding',t:'Full polymer range',d:'HDPE, LDPE and mixed rigids, plus a verified buyer network for certified batches.',c:['HDPE','LDPE','Buyer network']},
+ {n:'01 · Piloting',t:'Clear polymers',d:'Piloting clear PET and PP flake certification at the source in Monterrey, Mexico.',c:['PET','PP','Pilot']},
+ {n:'02 · Next',t:'Full polymer range',d:'Expanding to HDPE, LDPE and mixed rigids, plus a buyer network — opening target markets.',c:['HDPE','LDPE','Buyer network']},
  {n:'03 · Roadmap',t:'Textiles & metals',d:'Same optical hardware, new models — built for markets with mandatory recycled-content targets.',c:['Textiles','Metals','Other streams']}
 ];
+// Monterrey is the only launch node (pilot). Everything else is a target market.
 const CITIES=[
- {n:'Monterrey',c:[-100.31,25.67],p:1,m:1},{n:'Ohio',c:[-82.99,39.96],p:1,m:1},{n:'Stuttgart',c:[9.18,48.78],p:1,m:1},{n:'Shenzhen',c:[114.06,22.54],p:1,m:1},
- {n:'Guadalajara',c:[-103.35,20.67],p:2},{n:'São Paulo',c:[-46.63,-23.55],p:2},{n:'Rotterdam',c:[4.48,51.92],p:2},{n:'Bangkok',c:[100.5,13.75],p:2},
+ {n:'Monterrey',c:[-100.31,25.67],p:1,launch:1},
+ {n:'Ohio',c:[-82.99,39.96],p:2},{n:'Stuttgart',c:[9.18,48.78],p:2},{n:'Shenzhen',c:[114.06,22.54],p:2},{n:'Guadalajara',c:[-103.35,20.67],p:2},
+ {n:'São Paulo',c:[-46.63,-23.55],p:3},{n:'Rotterdam',c:[4.48,51.92],p:3},{n:'Bangkok',c:[100.5,13.75],p:3},
  {n:'Bogotá',c:[-74.07,4.71],p:3},{n:'Milan',c:[9.19,45.46],p:3},{n:'Osaka',c:[135.5,34.69],p:3},{n:'Johannesburg',c:[28.05,-26.2],p:3}
 ];
-let ACC='#00E5FF',phase=1,auto=true,phaseT=performance.now(),R=0,land=null,dots=[],proj=null,W=0,H=0;
+let ACC='#00E5FF',phase=1,auto=!RM,phaseT=performance.now(),R=0,land=null,dots=[],proj=null,W=0,H=0;
 const cv=document.getElementById('c'),ctx=cv.getContext('2d');
 const hexA=(h,a)=>{const n=parseInt(h.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`};
+const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
 window.addEventListener('message',e=>{if(e.data&&e.data.vlAcc){ACC=e.data.vlAcc;document.documentElement.style.setProperty('--acc',ACC)}});
 const tabs=document.getElementById('tabs');
 PH.forEach((p,i)=>{const b=document.createElement('button');b.className='tab';b.innerHTML=`<div class="bar"></div><div class="n">${p.n}</div><div class="t">${p.t}</div><div class="d">${p.d}</div><div class="chips">${p.c.map(x=>`<span>${x}</span>`).join('')}</div>`;b.onclick=()=>{auto=false;setPhase(i+1)};tabs.appendChild(b)});
-function setPhase(p){phase=p;phaseT=performance.now();[...tabs.children].forEach((b,i)=>{b.classList.toggle('on',i===p-1);b.querySelector('.bar').style.width=(i===p-1&&!auto)?'100%':'0'});document.getElementById('hudp').textContent='Stage 0'+p;const n=CITIES.filter(c=>c.p<=p).length;document.getElementById('hudn').textContent=n+' active hubs'}
-setPhase(1);
+function setPhase(p){phase=p;phaseT=performance.now();[...tabs.children].forEach((b,i)=>{b.classList.toggle('on',i===p-1);b.querySelector('.bar').style.width=(i===p-1&&!auto)?'100%':'0'});document.getElementById('hudn').textContent=PH[p-1].n}
+setPhase(RM?2:1);
 function build(){
   const r=cv.getBoundingClientRect();W=r.width;H=r.height;if(!W||!land)return;
   const d=Math.min(2,devicePixelRatio||1);cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);
@@ -68,23 +81,36 @@ function draw(t){
   requestAnimationFrame(draw);if(!dots.length)return;
   if(auto){const e=t-phaseT;tabs.children[phase-1].querySelector('.bar').style.width=Math.min(100,e/5200*100)+'%';if(e>5200)setPhase(phase%3+1)}
   ctx.clearRect(0,0,W,H);
-  const o=CITIES[0].xy,target=[W*.62,W*.85,W*1.1][phase-1];R+=(target-R)*.04;
-  const ang=t*.0011;
+  // clip everything to the map frame — arcs/rings can never leave the container
+  ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
+  const o=CITIES[0].xy; // Monterrey launch node
+  const target=[W*.16,W*.24,W*.32][phase-1];R+=RM?(target-R):(target-R)*.04;
+  const ang=RM?-0.6:t*.0011;
+  // dot grid with a soft radar sweep around the launch node
   for(const [x,y] of dots){const dx=x-o[0],dy=y-o[1],dist=Math.hypot(dx,dy);let a=.13;
-    if(dist<R){let da=(Math.atan2(dy,dx)-ang)%(Math.PI*2);if(da<0)da+=Math.PI*2;const sw=Math.max(0,1-da/1.4);a=.24+sw*.5;ctx.fillStyle=sw>.05?hexA(ACC,a):`rgba(255,255,255,${a})`}else ctx.fillStyle=`rgba(255,255,255,${a})`;
+    if(dist<R){let da=(Math.atan2(dy,dx)-ang)%(Math.PI*2);if(da<0)da+=Math.PI*2;const sw=Math.max(0,1-da/1.4);a=.2+sw*.45;ctx.fillStyle=sw>.05?hexA(ACC,a):`rgba(255,255,255,${a})`}else ctx.fillStyle=`rgba(255,255,255,${a})`;
     ctx.fillRect(x-.9,y-.9,1.8,1.8)}
-  ctx.strokeStyle=hexA(ACC,.18);ctx.lineWidth=1;for(let k=1;k<=3;k++){ctx.beginPath();ctx.arc(o[0],o[1],R*k/3,0,7);ctx.stroke()}
-  ctx.strokeStyle=hexA(ACC,.5);ctx.beginPath();ctx.moveTo(o[0],o[1]);ctx.lineTo(o[0]+Math.cos(ang)*R,o[1]+Math.sin(ang)*R);ctx.stroke();
-  CITIES.forEach((c,i)=>{if(i===0||c.p>phase)return;const [x,y]=c.xy,mx=(o[0]+x)/2,my=(o[1]+y)/2-Math.hypot(x-o[0],y-o[1])*.28;
-    ctx.strokeStyle=hexA(ACC,.45);ctx.beginPath();ctx.moveTo(o[0],o[1]);ctx.quadraticCurveTo(mx,my,x,y);ctx.stroke();
-    const u=(t*.00035+i*.17)%1,qx=(1-u)*(1-u)*o[0]+2*(1-u)*u*mx+u*u*x,qy=(1-u)*(1-u)*o[1]+2*(1-u)*u*my+u*u*y;
-    ctx.fillStyle=ACC;ctx.beginPath();ctx.arc(qx,qy,2.2,0,7);ctx.fill()});
+  // modest halo rings + sweep line around Monterrey
+  ctx.strokeStyle=hexA(ACC,.16);ctx.lineWidth=1;for(let k=1;k<=3;k++){ctx.beginPath();ctx.arc(o[0],o[1],R*k/3,0,7);ctx.stroke()}
+  if(!RM){ctx.strokeStyle=hexA(ACC,.45);ctx.beginPath();ctx.moveTo(o[0],o[1]);ctx.lineTo(o[0]+Math.cos(ang)*R,o[1]+Math.sin(ang)*R);ctx.stroke()}
+  // dashed planned routes to target markets (never active lines)
+  ctx.setLineDash([4,5]);
+  CITIES.forEach((c,i)=>{if(i===0||c.p>phase)return;const [x,y]=c.xy;const mx=(o[0]+x)/2,my=clamp((o[1]+y)/2-Math.hypot(x-o[0],y-o[1])*.24,10,H-10);
+    ctx.strokeStyle=hexA(ACC,.3);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(o[0],o[1]);ctx.quadraticCurveTo(mx,my,x,y);ctx.stroke();
+    if(!RM){const u=(t*.00035+i*.17)%1,qx=(1-u)*(1-u)*o[0]+2*(1-u)*u*mx+u*u*x,qy=(1-u)*(1-u)*o[1]+2*(1-u)*u*my+u*u*y;
+      ctx.setLineDash([]);ctx.fillStyle=hexA(ACC,.8);ctx.beginPath();ctx.arc(qx,qy,1.8,0,7);ctx.fill();ctx.setLineDash([4,5])}});
+  ctx.setLineDash([]);
+  // nodes
   ctx.font='500 11px "Geist Mono", monospace';
-  CITIES.forEach((c,i)=>{const [x,y]=c.xy,on=c.p<=phase;
-    if(on){const pr=((t*.001+i*.3)%1.6)/1.6;ctx.strokeStyle=hexA(ACC,.7*(1-pr));ctx.beginPath();ctx.arc(x,y,4+pr*16,0,7);ctx.stroke();ctx.fillStyle=ACC;ctx.beginPath();ctx.arc(x,y,c.m?4:3,0,7);ctx.fill()}
-    else{ctx.strokeStyle='rgba(255,255,255,.3)';ctx.beginPath();ctx.arc(x,y,3,0,7);ctx.stroke()}
-    if(c.m||on&&W>700){ctx.fillStyle=on?(c.m?'#EEF1F5':'#9BA3AF'):'rgba(255,255,255,.4)';const left=['Guadalajara','Rotterdam','Monterrey'].includes(c.n);const lx=left?x-ctx.measureText(c.n.toUpperCase()).width-8:x+8;const ly=c.n==='Guadalajara'?y+12:c.n==='Rotterdam'?y-6:c.n==='Milan'?y+12:y+4;ctx.fillText(c.n.toUpperCase(),lx,ly)}
+  CITIES.forEach((c,i)=>{const [x,y]=c.xy,shown=c.p<=phase;
+    if(c.launch){const pr=RM?0:((t*.001)%1.6)/1.6;ctx.strokeStyle=hexA(ACC,.7*(1-pr));ctx.beginPath();ctx.arc(x,y,4+pr*16,0,7);ctx.stroke();ctx.fillStyle=ACC;ctx.beginPath();ctx.arc(x,y,4.5,0,7);ctx.fill()}
+    else if(shown){ctx.setLineDash([2,2]);ctx.strokeStyle='rgba(255,255,255,.34)';ctx.beginPath();ctx.arc(x,y,3,0,7);ctx.stroke();ctx.setLineDash([])}
+    else return;
+    if(c.launch||W>700){const left=['Guadalajara','Rotterdam','Monterrey'].includes(c.n);const lx=left?x-ctx.measureText(c.n.toUpperCase()).width-8:x+8;const ly=c.n==='Guadalajara'?y+12:c.n==='Rotterdam'?y-6:c.n==='Milan'?y+12:y+4;ctx.fillStyle=c.launch?'#EEF1F5':'#8B93A1';ctx.fillText(c.n.toUpperCase(),lx,ly)}
   });
+  // launch tag under Monterrey
+  const [ox,oy]=o;ctx.fillStyle=hexA(ACC,.9);ctx.font='500 9px "Geist Mono", monospace';ctx.fillText('LAUNCH',ox+8,oy+16);
+  ctx.restore();
 }
 fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(r=>r.json()).then(topo=>{
   const fc=topojson.feature(topo,topo.objects.countries);fc.features=fc.features.filter(f=>f.id!=='010');land=fc;build();
