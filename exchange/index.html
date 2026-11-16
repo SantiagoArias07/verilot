@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2308090C'/%3E%3Crect x='8' y='8' width='16' height='16' fill='none' stroke='%2300E5FF' stroke-width='2'/%3E%3Crect x='13' y='13' width='6' height='6' fill='%2300E5FF'/%3E%3C/svg%3E">
+<meta name="description" content="VERILOT Exchange — every certified recycled-plastic batch becomes a listing, matched to buyers by spec, landed cost and certificate confidence. Early-access preview.">
+<title>VERILOT Exchange — Certified supply. Matched and moved.</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="VERILOT Exchange — Certified supply. Matched and moved.">
+<meta property="og:description" content="Every certified recycled-plastic batch becomes a listing, matched to buyers by spec, landed cost and certificate confidence.">
+<meta property="og:image" content="/assets/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body>
+<div id="app" style="background:#08090C; color:#EEF1F5; min-height:100vh; overflow-x:clip;">
+
+<nav style="position:sticky; top:0; z-index:50; height:66px; box-sizing:border-box; display:flex; align-items:center; gap:24px; padding:0 clamp(20px,5vw,64px); background:rgba(8,9,12,0.72); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid #1E222B;">
+  <a href="/" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:#EEF1F5; flex:none;">
+    <span style="width:14px; height:14px; border:1.5px solid var(--acc,#00E5FF); display:grid; place-items:center;"><span style="width:4px; height:4px; background:var(--acc,#00E5FF);"></span></span>
+    <span style="font-weight:600; font-size:15px; letter-spacing:0.22em;">VERILOT</span>
+  </a>
+  <div class="nav-links" style="flex:1 1 auto; min-width:0; overflow:hidden; display:flex; justify-content:center; gap:28px; white-space:nowrap; font-size:13.5px; color:#9BA3AF;">
+    <a href="/#problem" style="text-decoration:none;">Problem</a>
+    <a href="/#hardware" style="text-decoration:none;">Hardware</a>
+    <a href="/#simulation" style="text-decoration:none;">Live Demo</a>
+    <a href="/#certificate" style="text-decoration:none;">Certificate</a>
+    <a href="/#pricing" style="text-decoration:none;">Pricing</a>
+    <a href="/exchange/" aria-current="page" style="text-decoration:none; color:#EEF1F5; display:inline-flex; align-items:center; gap:7px;">Exchange <span class="nav-pill">Early access</span></a>
+  </div>
+  <a href="/#deploy" class="nav-cta" style="flex:none; cursor:pointer; text-decoration:none; font-size:13.5px; font-weight:500; padding:9px 16px; border-radius:999px; border:1px solid #2A303B; background:transparent; color:#EEF1F5;">Book a deployment</a>
+  <button type="button" id="navBurger" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span><span></span></button>
+  <div id="navMenu" class="nav-menu">
+    <a href="/#problem">Problem</a>
+    <a href="/#hardware">Hardware</a>
+    <a href="/#simulation">Live Demo</a>
+    <a href="/#certificate">Certificate</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="/exchange/">Exchange <span class="nav-pill">Early access</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="top" data-reveal style="position:relative; padding:clamp(72px,10vw,130px) clamp(20px,5vw,64px) clamp(48px,6vw,80px); border-bottom:1px solid #1E222B; background:radial-gradient(ellipse 70% 80% at 80% 10%, rgba(0,229,255,0.07), transparent 60%);">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:26px;">
+    <div style="align-self:flex-start; display:flex; align-items:center; gap:10px; padding:7px 12px; border:1px solid #1E222B; border-radius:999px; background:rgba(17,19,24,0.7); font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#C5CBD3;">
+      <span style="width:6px; height:6px; border-radius:50%; background:var(--acc,#00E5FF); box-shadow:0 0 10px var(--acc,#00E5FF);"></span>VERILOT EXCHANGE · EARLY-ACCESS PREVIEW
+    </div>
+    <h1 style="margin:0; font-weight:500; font-size:clamp(40px,6vw,86px); line-height:0.98; letter-spacing:-0.045em; max-width:16ch; text-wrap:balance;">Certified supply. Matched and moved.</h1>
+    <p style="margin:0; max-width:620px; font-size:clamp(16px,1.4vw,19px); line-height:1.55; color:#AEB5C0; text-wrap:pretty;">Every VERILOT certificate becomes a listing. Buyers post specs; the engine matches by spec fit, landed cost and certificate confidence—then plans the freight. This is a preview of the engine on <strong style="color:#C5CBD3; font-weight:500;">simulated data</strong>.</p>
+    <div style="display:flex; flex-wrap:wrap; gap:12px;">
+      <a href="#demo" class="btn-primary" style="text-decoration:none; background:var(--acc,#00E5FF); color:#08090C; font-weight:600; font-size:15px; padding:15px 22px; border-radius:999px; box-shadow:0 0 32px rgba(0,229,255,0.28);">Try the matching demo</a>
+      <a href="#waitlist" class="btn-ghost" style="text-decoration:none; color:#EEF1F5; font-weight:500; font-size:15px; padding:15px 22px; border-radius:999px; border:1px solid rgba(255,255,255,0.18); background:rgba(17,19,24,0.5);">Join the waitlist</a>
+    </div>
+  </div>
+</header>
+
+<!-- HOW IT WORKS -->
+<section id="how" data-reveal style="padding:clamp(64px,8vw,110px) clamp(20px,5vw,64px); background:#0B0D11; border-bottom:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:44px;">
+    <div style="display:flex; flex-direction:column; gap:16px; max-width:720px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">How the Exchange works</div>
+      <h2 style="margin:0; font-weight:500; font-size:clamp(30px,4vw,52px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Certify once. List, match and move automatically.</h2>
+    </div>
+    <div class="xc-steps" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr)); gap:1px; background:#1E222B; border:1px solid #1E222B; border-radius:14px; overflow:hidden;">
+      <div style="background:#0B0D11; padding:26px 22px 30px; display:flex; flex-direction:column; gap:10px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">01</span><span style="font-size:19px; font-weight:500;">Certify</span><span style="font-size:14px; line-height:1.5; color:#9BA3AF;">A VERILOT module certifies the batch at the source: composition, confidence, tamper-evident hash.</span></div>
+      <div style="background:#0B0D11; padding:26px 22px 30px; display:flex; flex-direction:column; gap:10px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">02</span><span style="font-size:19px; font-weight:500;">Auto-list</span><span style="font-size:14px; line-height:1.5; color:#9BA3AF;">Each closed certificate becomes a listing—polymer, grade, tonnage, price and location—no manual entry.</span></div>
+      <div style="background:#0B0D11; padding:26px 22px 30px; display:flex; flex-direction:column; gap:10px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">03</span><span style="font-size:19px; font-weight:500;">Match</span><span style="font-size:14px; line-height:1.5; color:#9BA3AF;">Buyers post specs. The engine hard-filters, then ranks by spec fit, landed cost, distance and confidence.</span></div>
+      <div style="background:#0B0D11; padding:26px 22px 30px; display:flex; flex-direction:column; gap:10px;"><span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--acc,#00E5FF);">04</span><span style="font-size:19px; font-weight:500;">Move</span><span style="font-size:14px; line-height:1.5; color:#9BA3AF;">Freight is estimated per route (distance × rate × tonnage, trucks) so buyers compare landed cost, not sticker price.</span></div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px;">
+      <div style="padding:24px; border:1px solid #1E222B; border-radius:16px; background:#111318; display:flex; flex-direction:column; gap:12px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--acc,#00E5FF);">Sellers lane</div>
+        <div style="font-size:18px; font-weight:500;">Turn a discounted batch into a bid</div>
+        <div style="font-size:14px; line-height:1.55; color:#AEB5C0;">Your certified flake is listed the moment the batch closes. Verified buyers see the evidence before they buy—so quality earns a premium instead of a discount.</div>
+      </div>
+      <div style="padding:24px; border:1px solid #1E222B; border-radius:16px; background:#111318; display:flex; flex-direction:column; gap:12px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--acc,#00E5FF);">Buyers lane</div>
+        <div style="font-size:18px; font-weight:500;">Source to spec, with landed cost up front</div>
+        <div style="font-size:14px; line-height:1.55; color:#AEB5C0;">Post the polymer, grade and limits you need. Get a ranked shortlist with certificate confidence and delivered cost—no sampling roulette.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE MATCHING DEMO -->
+<section id="demo" data-reveal style="padding:clamp(64px,8vw,110px) clamp(20px,5vw,64px);">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:20px;">
+      <div style="display:flex; flex-direction:column; gap:14px; max-width:640px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Matching engine</div>
+        <h2 style="margin:0; font-weight:500; font-size:clamp(30px,4vw,52px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Post a spec. Watch supply rank itself.</h2>
+      </div>
+      <span class="xc-sim-tag">Simulated data · live engine</span>
+    </div>
+
+    <div class="xc-demo">
+      <!-- buyer spec form -->
+      <form id="specForm" class="xc-spec" autocomplete="off">
+        <div class="xc-spec-head">Buyer spec</div>
+        <label class="xc-field"><span>Polymer</span>
+          <select id="bPolymer" class="xc-input"><option value="PET">PET</option><option value="PP">PP</option></select></label>
+        <label class="xc-field"><span>Minimum grade</span>
+          <select id="bGrade" class="xc-input"><option value="A">A — premium</option><option value="B" selected>B — standard</option><option value="C">C — tolerant</option></select></label>
+        <label class="xc-field"><span>Max PVC <em id="vPvc">250</em> ppm</span>
+          <input id="bPvc" class="range-cyan" type="range" min="0" max="600" step="10" value="250"></label>
+        <label class="xc-field"><span>Max moisture <em id="vMoist">3.0</em> %</span>
+          <input id="bMoist" class="range-cyan" type="range" min="0" max="5" step="0.1" value="3"></label>
+        <label class="xc-field"><span>Tonnage needed <em id="vTons">300</em> t</span>
+          <input id="bTons" class="range-cyan" type="range" min="20" max="1200" step="20" value="300"></label>
+        <label class="xc-field"><span>Delivery city</span>
+          <select id="bCity" class="xc-input"></select></label>
+        <label class="xc-field"><span>Max price <em id="vPrice">$1000</em> /t</span>
+          <input id="bPrice" class="range-cyan" type="range" min="400" max="1400" step="10" value="1000"></label>
+        <div class="xc-weights">Ranking weights — spec fit 30% · landed cost 35% · confidence 20% · distance 15%</div>
+      </form>
+
+      <!-- ranked results -->
+      <div class="xc-results-wrap">
+        <div id="matchSummary" class="xc-summary" aria-live="polite"></div>
+        <div id="matchResults" class="xc-results"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI (HONEST) -->
+<section id="ai" data-reveal style="padding:clamp(64px,8vw,110px) clamp(20px,5vw,64px); background:#0B0D11; border-top:1px solid #1E222B; border-bottom:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:40px;">
+    <div style="display:flex; flex-direction:column; gap:16px; max-width:760px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">What the AI does — and doesn’t, yet</div>
+      <h2 style="margin:0; font-weight:500; font-size:clamp(28px,3.6vw,46px); line-height:1.05; letter-spacing:-0.035em; text-wrap:balance;">Deterministic today. Learned models next.</h2>
+      <p style="margin:0; font-size:16px; line-height:1.6; color:#9BA3AF;">We’d rather underclaim. The ranking you see is explicit rules and optimization you can audit—no black box. The learned parts are on the roadmap, not in the demo.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px;">
+      <div style="padding:26px; border:1px solid var(--acc,#00E5FF); border-radius:16px; background:linear-gradient(180deg, rgba(0,229,255,0.07), rgba(0,229,255,0) 60%), #111318; display:flex; flex-direction:column; gap:14px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--acc,#00E5FF); text-transform:uppercase;">Live now</span>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14.5px; line-height:1.5; color:#C5CBD3;">
+          <span>+ Rule-based hard filtering against buyer constraints</span>
+          <span>+ Transparent, weighted scoring (spec fit, landed cost, distance, confidence)</span>
+          <span>+ Freight &amp; truckload estimation per route</span>
+          <span>+ Deterministic ranking a backend can reproduce exactly</span>
+        </div>
+      </div>
+      <div style="padding:26px; border:1px solid #1E222B; border-radius:16px; background:#111318; display:flex; flex-direction:column; gap:14px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#F59E0B; text-transform:uppercase;">Next — not in this demo</span>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14.5px; line-height:1.5; color:#9BA3AF;">
+          <span>— LLM parsing of free-text RFQs into structured specs</span>
+          <span>— Price prediction by polymer, grade and region</span>
+          <span>— Route consolidation across multiple lots and buyers</span>
+          <span>— Calibrated confidence from audit history</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist" data-reveal style="padding:clamp(64px,8vw,110px) clamp(20px,5vw,64px);">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:36px;">
+    <div style="display:flex; flex-direction:column; gap:14px; max-width:640px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--acc,#00E5FF);">Early access</div>
+      <h2 style="margin:0; font-weight:500; font-size:clamp(30px,4vw,52px); line-height:1.04; letter-spacing:-0.035em; text-wrap:balance;">Get on the Exchange waitlist.</h2>
+      <p style="margin:0; font-size:16px; line-height:1.6; color:#9BA3AF;">Tell us which side you’re on and what you move. We’ll onboard launch-market sellers and buyers first.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr)); gap:16px;">
+
+      <form id="sellerForm" class="xc-wl" novalidate>
+        <div class="xc-wl-head"><span class="xc-wl-tag">I sell recycled flake</span></div>
+        <label class="xc-field"><span>Work email</span><input name="email" type="email" required class="xc-input" placeholder="you@plant.com" aria-describedby="sellerErr"></label>
+        <label class="xc-field"><span>Company / facility <em class="xc-opt">optional</em></span><input name="company" class="xc-input" placeholder="Northern Polymers"></label>
+        <label class="xc-field"><span>Material</span><select name="material" class="xc-input"><option>Clear PET flake</option><option>Light PP flake</option><option>HDPE</option><option>Other</option></select></label>
+        <label class="xc-field"><span>Monthly tons</span><input name="monthlyTons" type="number" min="0" class="xc-input" placeholder="500"></label>
+        <label class="xc-field"><span>City</span><select name="city" class="xc-input" data-cities></select></label>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px">
+        <div class="xc-err" data-err id="sellerErr" role="alert"></div>
+        <button type="submit" class="btn-primary xc-submit">Join as a seller</button>
+        <div class="xc-sent" data-sent role="status" hidden><span class="xc-sent-tag">On the list</span>We’ll reach out as we open seller onboarding in your market.</div>
+      </form>
+
+      <form id="buyerForm" class="xc-wl" novalidate>
+        <div class="xc-wl-head"><span class="xc-wl-tag">I buy recycled material</span></div>
+        <label class="xc-field"><span>Work email</span><input name="email" type="email" required class="xc-input" placeholder="you@company.com" aria-describedby="buyerErr"></label>
+        <label class="xc-field"><span>Company <em class="xc-opt">optional</em></span><input name="company" class="xc-input" placeholder="Converter Inc."></label>
+        <label class="xc-field"><span>Material</span><select name="material" class="xc-input"><option>Clear PET flake</option><option>Light PP flake</option><option>HDPE</option><option>Other</option></select></label>
+        <label class="xc-field"><span>Required specs <em class="xc-opt">grade / PVC / moisture</em></span><input name="specs" class="xc-input" placeholder="Grade A, &lt;100ppm PVC, &lt;1% moisture"></label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <label class="xc-field"><span>Monthly tons</span><input name="monthlyTons" type="number" min="0" class="xc-input" placeholder="300"></label>
+          <label class="xc-field"><span>Target $/t</span><input name="targetPrice" type="number" min="0" class="xc-input" placeholder="900"></label>
+        </div>
+        <label class="xc-field"><span>Delivery city</span><select name="city" class="xc-input" data-cities></select></label>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px">
+        <div class="xc-err" data-err id="buyerErr" role="alert"></div>
+        <button type="submit" class="btn-primary xc-submit">Join as a buyer</button>
+        <div class="xc-sent" data-sent role="status" hidden><span class="xc-sent-tag">On the list</span>We’ll reach out as we open buyer access in your market.</div>
+      </form>
+
+    </div>
+    <p style="margin:0; font-size:12.5px; color:#8B93A1;">By joining you agree we may contact you about VERILOT Exchange. See our <a href="/privacy.html" style="color:#C5CBD3;">privacy notice</a>.</p>
+  </div>
+</section>
+
+<footer style="padding:clamp(48px,6vw,80px) clamp(20px,5vw,64px) 40px; border-top:1px solid #1E222B;">
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px 32px; font-size:13px; color:#8B93A1;">
+    <span><a href="/" style="color:#C5CBD3; text-decoration:none;">← VERILOT</a> · Exchange is an early-access preview on simulated data.</span>
+    <span>© 2026 VERILOT. All rights reserved.</span>
+  </div>
+</footer>
+
+</div>
+<script type="module" src="/js/exchange.js"></script>
+</body>
+</html>
